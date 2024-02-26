@@ -10,5 +10,5 @@ public class ClientDTO {
     private String email;
     private Date insertion_date;
     private Date last_contact_date;
-    private
+
 }
