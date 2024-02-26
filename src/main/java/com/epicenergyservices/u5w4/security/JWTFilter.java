@@ -29,23 +29,19 @@ public class JWTFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
     String authHeader = request.getHeader("Authorization");
-    if (authHeader == null || !authHeader.startsWith("Bearer "))
-      throw new UnauthorizedException("Per favore metti il token nell'header");
-
-    String accessToken = authHeader.substring(7);
-
-    System.out.println("ACCESS TOKEN " + accessToken);
-
-    jwtTools.verifyToken(accessToken);
-
-    String id = jwtTools.extractIdFromToken(accessToken);
-    User user = userService.findById(UUID.fromString(id));
-
-    Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
+    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+      String accessToken = authHeader.substring(7);
+      try {
+        jwtTools.verifyToken(accessToken);
+        String id = jwtTools.extractIdFromToken(accessToken);
+        User user = userService.findById(UUID.fromString(id));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+      } catch (UnauthorizedException e) {
+        logger.error("Authorization error: {}");
+      }
+    }
     filterChain.doFilter(request, response);
   }
 
