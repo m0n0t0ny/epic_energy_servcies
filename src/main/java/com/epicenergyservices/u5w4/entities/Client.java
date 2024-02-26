@@ -69,6 +69,7 @@ public class Client {
   @OneToOne(mappedBy = "client")
   private Invoice invoice;
 
-  @OneToOne(mappedBy = "client")
+  @ManyToOne
+  @JoinColumn(name = "user_id")
   private User user;
 }

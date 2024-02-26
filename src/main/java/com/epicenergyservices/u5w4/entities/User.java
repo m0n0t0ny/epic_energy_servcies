@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -47,10 +48,13 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private Role role;
-  
+
   @OneToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
+
+  @OneToMany(mappedBy = "user")
+  private Set<Client> clients;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -81,5 +85,4 @@ public class User implements UserDetails {
   public String getUsername() {
     return this.email;
   }
-
 }
