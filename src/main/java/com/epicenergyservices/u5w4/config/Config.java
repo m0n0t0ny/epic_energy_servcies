@@ -8,7 +8,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,39 +18,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class Config {
+
   @Autowired
   private JWTFilter jwtFilter;
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.formLogin(AbstractHttpConfigurer::disable);
-    httpSecurity.csrf(AbstractHttpConfigurer::disable);
-    httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-    httpSecurity.cors(Customizer.withDefaults());
-
-    httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-    httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
+    httpSecurity
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .cors(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .anyRequest().authenticated())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return httpSecurity.build();
   }
 
   @Bean
-  PasswordEncoder getBCrypt() {
-    return new BCryptPasswordEncoder(12);
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
-
-//  @Bean
-//  CorsConfigurationSource corsConfigurationSource() {
-//    CorsConfiguration config = new CorsConfiguration();
-//
-//    config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://mywonderfulfrontend.com"));
-//    config.setAllowedMethods(Arrays.asList("*"));
-//    config.setAllowedHeaders(Arrays.asList("*"));
-//
-//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//    source.registerCorsConfiguration("/**", config);
-//
-//    return source;
-//  }
 }

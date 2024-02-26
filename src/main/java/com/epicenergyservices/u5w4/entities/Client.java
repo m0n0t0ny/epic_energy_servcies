@@ -20,43 +20,43 @@ public class Client {
   private UUID id;
 
   @Column(nullable = false)
-  private String company_name;
+  private String companyName;
 
   @Column(nullable = false, unique = true)
-  private String vat_number;
+  private String vatNumber;
 
   @Column(nullable = false, unique = true)
   private String email;
 
   @Column(name = "insertion_date", nullable = false)
-  private LocalDate insertion_date;
+  private LocalDate insertionDate;
 
   @Column(name = "last_contact_date")
-  private LocalDate last_contact_date;
+  private LocalDate lastContactDate;
 
   @Column(nullable = false)
-  private Integer annual_revenue;
+  private Integer annualRevenue;
 
   @Column(name = "certified_email")
-  private String certified_email;
+  private String certifiedEmail;
 
   @Column(name = "phone_number")
-  private String phone_number;
+  private String phoneNumber;
 
   @Column(name = "contact_email")
-  private String contact_email;
+  private String contactEmail;
 
   @Column(name = "contact_first_name")
-  private String contact_first_name;
+  private String contactFirst_name;
 
   @Column(name = "contact_last_name")
-  private String contact_last_name;
+  private String contactLast_name;
 
   @Column(name = "contact_phone_number")
-  private String contact_phone_number;
+  private String contactPhone_number;
 
   @Column(name = "company_logo")
-  private String company_logo;
+  private String companyLogo;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "legal_address_id", referencedColumnName = "id")
