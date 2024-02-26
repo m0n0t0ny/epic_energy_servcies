@@ -15,17 +15,22 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "invoices")
 public class Invoice {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Setter(AccessLevel.NONE)
   @Column(updatable = false, nullable = false)
   private UUID id;
+
   @Column(nullable = false)
   private LocalDate date;
+
   @Column(nullable = false)
   private Double amount;
+
   @Column(nullable = false)
   private String status;
+
   @ManyToOne
   @JoinColumn(name = "client_id", referencedColumnName = "id")
   private Client client;

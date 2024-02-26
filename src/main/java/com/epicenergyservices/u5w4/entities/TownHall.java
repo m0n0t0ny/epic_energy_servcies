@@ -15,13 +15,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "town_halls")
 public class TownHall {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Setter(AccessLevel.NONE)
   @Column(updatable = false, nullable = false)
   private UUID id;
+
   @Column(nullable = false)
   private String name;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "province_id")
   private Province province;

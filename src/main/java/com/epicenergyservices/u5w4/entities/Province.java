@@ -15,15 +15,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "provinces")
 public class Province {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Setter(AccessLevel.NONE)
   @Column(updatable = false, nullable = false)
   private UUID id;
+
   @Column(nullable = false)
   private String name;
+
   @Column(nullable = false, length = 2)
   private String initials;
+
   @OneToMany(mappedBy = "province")
   private Set<TownHall> townHalls;
 }

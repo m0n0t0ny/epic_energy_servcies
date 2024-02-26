@@ -20,25 +20,34 @@ import java.util.UUID;
 @JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "users")
 public class User implements UserDetails {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Setter(AccessLevel.NONE)
   private UUID id;
+
   @Column(nullable = false, unique = true)
   private String username;
+
   @Column(nullable = false)
   private String email;
+
   @Column(nullable = false)
   private String password;
+
   @Column
   private String name;
+
   @Column
   private String surname;
+
   @Column
   private String avatar;
+
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private Role role;
+  
   @OneToOne
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
