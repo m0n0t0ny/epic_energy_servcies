@@ -17,6 +17,9 @@ public class UserDTO {
     private Role role;
 
     public UserDTO(UUID id, String username, String email, String password, String name, String surname, String avatar, Role role){
+        if(id == null || username == null || email == null || password == null || name == null || surname == null || avatar == null || role == null){
+            throw new InvalidPayloadException("Il payload non può contenere valori null");
+        }
         this.id = id;
         this.username = username;
         this.email = email;
@@ -25,6 +28,11 @@ public class UserDTO {
         this.surname = surname;
         this.avatar = avatar;
         this.role = role;
+    }
+    public static class InvalidPayloadException extends RuntimeException {
+        public InvalidPayloadException (String message){
+            super(message);
+        }
     }
     public enum Role {
         Admin,

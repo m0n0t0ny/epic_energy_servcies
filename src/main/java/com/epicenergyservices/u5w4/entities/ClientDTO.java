@@ -25,10 +25,16 @@ public class ClientDTO {
     private UUID invoices_id;
     private UUID user_id;
 
-    private ClientDTO(UUID id, String company_name, String vat_number, String email, Date insertion_date, Date last_contact_date, Integer annual_revenue,
+    private ClientDTO( UUID id, String company_name, String vat_number, String email, Date insertion_date, Date last_contact_date, Integer annual_revenue,
                       String certified_email, String phone_number, String contact_email, String contact_first_name, String contact_last_name,
                       String contact_phone_number, String company_logo, Type type, UUID legal_address_id, UUID company_address_id, UUID invoices_id,
-                      UUID user_id){
+                      UUID user_id ){
+        if ( id == null || company_name == null || vat_number == null || email == null || insertion_date == null || last_contact_date == null ||
+            annual_revenue == null || certified_email == null || phone_number == null || contact_email == null || contact_first_name == null ||
+            contact_last_name == null || contact_phone_number == null || company_logo == null || type == null || legal_address_id == null ||
+            company_address_id == null || invoices_id == null ||user_id == null ){
+            throw new InvalidPayloadException("Il payload non può contenere valori null");
+        }
     this.id = id;
     this.company_name = company_name;
     this.vat_number = vat_number;
@@ -48,6 +54,11 @@ public class ClientDTO {
     this.company_address_id = company_address_id;
     this.invoices_id = invoices_id;
     this.user_id = user_id;
+    }
+    public static class InvalidPayloadException extends RuntimeException {
+        public InvalidPayloadException(String message){
+            super(message);
+        }
     }
 public enum Type{
     PA,
