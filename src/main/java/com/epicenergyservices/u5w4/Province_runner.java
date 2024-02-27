@@ -1,10 +1,5 @@
 package com.epicenergyservices.u5w4;
 
-import com.epicenergyservices.u5w4.entities.Province;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,10 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
 
 @Component
-public class CSVrunner implements CommandLineRunner {
+public class Province_runner implements CommandLineRunner {
 
     @Value("${PG_URL}")
     private String URL;
@@ -27,7 +21,6 @@ public class CSVrunner implements CommandLineRunner {
     String password;
 
 
-    private final String csvFilePath = "comuni-italiani.csv";
     private final String csvFilePath2 = "province-italiane.csv";
     Connection connection = null;
 
@@ -37,23 +30,24 @@ public class CSVrunner implements CommandLineRunner {
             connection = DriverManager.getConnection(URL, username, password);
             connection.setAutoCommit(false);
 
-            String sql = "INSERT INTO province (id, initials,name, region) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO province (id,initials,name, region) VALUES (?, ?, ?, ?)";
 
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
             //crea un nuovo file.csv
-            BufferedWriter lineWriter = new BufferedWriter(new FileWriter("newFile.csv"));
+//            BufferedWriter lineWriter = new BufferedWriter(new FileWriter("newFile.csv"));
             //leggi il vecchio file
             BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath2));
 
+            lineReader.readLine();
             // Leggi i titoli
-            String header = lineReader.readLine();
+//            String header = lineReader.readLine();
             //scrivi l'header sul nuovo file
-            lineWriter.write(header);
-            lineWriter.newLine();
+//            lineWriter.write(header);
+//            lineWriter.newLine();
 
-            long count = 0;
+            long count = 1;
             String line;
             while ((line = lineReader.readLine()) != null) {
                 String[] data = line.split(";");
@@ -64,8 +58,8 @@ public class CSVrunner implements CommandLineRunner {
                 String region = data[2];
 
                 //scrivi l'id all'inizio della riga e poi passi alla prossima
-                lineWriter.write(id + ";" + line);
-                lineWriter.newLine();
+//                lineWriter.write(id + ";" + line);
+//                lineWriter.newLine();
 
                 //inserisci i dati
                 statement.setLong(1, id);
@@ -75,15 +69,15 @@ public class CSVrunner implements CommandLineRunner {
 
 
 //                statement.addBatch();
-                System.out.println(statement);
+//                System.out.println(statement);
 
                 //metti i dati de db
                 statement.executeUpdate();
             }
+            lineReader.close();
 //            statement.executeBatch();
 
-            lineWriter.close();
-            lineReader.close();
+//            lineWriter.close();
 
             connection.commit();
             connection.close();
