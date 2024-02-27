@@ -15,20 +15,13 @@ public class TownHall {
     @Id
 //    @GeneratedValue
     private long id;
-    private long CAP;
+    private long codiceProvincia;
+    private String progressivoComune;
+    private String name;
+    private String provinceName;
 //    @ManyToOne
 //    @JoinColumn(name = "province_id")
 //    private Province province;
-    private String name;
-    private String provinceName;
 
-    @Override
-    public String toString() {
-        return "TownHall{" +
-                "id=" + id +
-                ", CAP=" + CAP +
-                ", name='" + name + '\'' +
-                ", provinceName='" + provinceName + '\'' +
-                '}';
-    }
+
 }
