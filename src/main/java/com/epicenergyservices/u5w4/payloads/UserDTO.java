@@ -1,4 +1,4 @@
-package com.epicenergyservices.u5w4.entities;
+package com.epicenergyservices.u5w4.payloads;
 
 import org.aspectj.weaver.ast.Var;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
