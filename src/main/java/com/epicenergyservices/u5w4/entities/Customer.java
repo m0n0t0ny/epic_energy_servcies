@@ -2,9 +2,7 @@ package com.epicenergyservices.u5w4.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,6 +10,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+
 public class Customer {
   @Id
   @Setter(AccessLevel.NONE)
@@ -30,7 +30,11 @@ public class Customer {
   private String contactLastName;
   private String contactPhone;
   private String CompanyLogo;
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-  @JsonIgnore
-  private List<Address> addresses;
+
+  public Customer(String companyName) {
+    this.companyName = companyName;
+  }
+  //  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+//  @JsonIgnore
+//  private List<Address> addresses;
 }
