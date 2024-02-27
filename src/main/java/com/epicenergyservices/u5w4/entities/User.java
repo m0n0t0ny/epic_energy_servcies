@@ -27,26 +27,26 @@ public class User implements UserDetails {
   @Setter(AccessLevel.NONE)
   private UUID id;
 
-  @Column(nullable = false, unique = true)
+  @Column(name = "username", nullable = false, unique = true)
   private String username;
 
-  @Column(nullable = false)
+  @Column(name = "email", nullable = false)
   private String email;
 
-  @Column(nullable = false)
+  @Column(name = "password", nullable = false)
   private String password;
 
-  @Column
+  @Column(name = "name")
   private String name;
 
-  @Column
+  @Column(name = "surname")
   private String surname;
 
-  @Column
+  @Column(name = "avatar")
   private String avatar;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
+  @Column(name = "role", nullable = false)
   private Role role;
 
   @OneToOne

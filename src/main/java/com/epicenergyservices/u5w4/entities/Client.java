@@ -47,13 +47,13 @@ public class Client {
   private String contactEmail;
 
   @Column(name = "contact_first_name")
-  private String contactFirst_name;
+  private String contactFirstName;
 
   @Column(name = "contact_last_name")
-  private String contactLast_name;
+  private String contactLastName;
 
   @Column(name = "contact_phone_number")
-  private String contactPhone_number;
+  private String contactPhoneNumber;
 
   @Column(name = "company_logo")
   private String companyLogo;
@@ -69,7 +69,7 @@ public class Client {
   @OneToOne(mappedBy = "client")
   private Invoice invoice;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
 }
