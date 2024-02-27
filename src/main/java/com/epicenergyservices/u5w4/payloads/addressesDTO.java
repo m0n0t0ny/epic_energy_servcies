@@ -1,4 +1,4 @@
-package com.epicenergyservices.u5w4.entities;
+package com.epicenergyservices.u5w4.payloads;
 
 import java.lang.reflect.Type;
 import java.util.UUID;

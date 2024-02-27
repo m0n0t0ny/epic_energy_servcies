@@ -17,7 +17,7 @@ public class ClientService {
     private ClientDAO clientDAO;
 
     public Client save(ClientDTO payload) {
-        Client client = new Client(payload.id, payload.company_name, p)
+        Client client = new Client(payload.id, payload.company_name, payload.vat_number, payload.email, payload.insertion_date, payload.last_contact_date, payload.annual_revenue, payload.certified_email, payload.phone_number, payload.contact_email, payload.contact_first_name, payload.contact_last_name, payload.contact_phone_number, payload.company_logo, payload.legal_address_id, payload.company_address_id, payload.invoices_id, payload.user_id);
         return clientDAO.save(client);
     }
 
