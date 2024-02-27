@@ -39,19 +39,12 @@ public class THrunner implements CommandLineRunner {
             String sql = "INSERT INTO town_hall (id, codice_provincia, progressivo_comune , name, province_name, province_id) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
-            //crea un nuovo file.csv
-            BufferedWriter lineWriter = new BufferedWriter(new FileWriter("newFile.csv"));
-            //leggi il vecchio file
+
 
             BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
 
             lineReader.readLine();
-            // Leggi i titoli
-            String header = lineReader.readLine();
 
-            //scrivi l'header sul nuovo file
-            lineWriter.write(header);
-            lineWriter.newLine();
 
             long count = 1;
             long progr = 1;
@@ -68,30 +61,59 @@ public class THrunner implements CommandLineRunner {
                 String nameProvince = data[3];
                 String[] data2 = nameProvince.split(" ");
                 String nameProvince2 = String.join("_", data2);
+                String[] data3 = nameProvince2.split("-");
+                String nameProvince3 = String.join("_", data3);
 
-//                //mettendo meno uno nel caso non ci sia la relazione, il risultato sarà null
                 List<Province> province = this.provinceService.getProvince(nameProvince2);
 
                 long provinceId = 1;
                 if (!province.isEmpty()) {
                     provinceId = province.get(0).getId();
                 }
-                lineWriter.write(id + ";" + codProvincia + ";" + progrComune + ";" + name + ";" + nameProvince2);
-                lineWriter.newLine();
+                switch (nameProvince3) {
+                    case "Monza_e_della_Brianza":
+                        provinceId = 59;
+                        break;
+                    case "Bolzano/Bozen":
+                        provinceId = 16;
+                        break;
+                    case "Reggio_nell'Emilia":
+                        provinceId = 82;
+                        break;
+                    case "Forlì_Cesena":
+                        provinceId = 37;
+                        break;
+                    case "Massa_Carrara":
+                        provinceId = 53;
+                        break;
+                    case "Pesaro_e_Urbino":
+                        provinceId = 71;
+                        break;
+                    case "Barletta_Andria_Trani":
+                        provinceId = 10;
+                        break;
+                    case "Verbano_Cusio_Ossola":
+                        provinceId = 104;
+                        break;
+                    case "Valle_d'Aosta/Vallée_d'Aoste":
+                        provinceId = 4;
+                        break;
+
+                }
+                ;
 
                 statement.setLong(1, id);
                 statement.setLong(2, codProvincia);
                 statement.setString(3, progrComune);
                 statement.setString(4, name);
-                statement.setString(5, nameProvince2);
-                statement.setLong(6,provinceId);
+                statement.setString(5, nameProvince3);
+                statement.setLong(6, provinceId);
 
                 System.out.println(province);
                 statement.executeUpdate();
 
             }
             lineReader.close();
-            lineWriter.close();
 
             connection.commit();
             connection.close();
