@@ -5,6 +5,7 @@ import com.epicenergyservices.u5w4.exceptions.UserNotFoundException;
 import com.epicenergyservices.u5w4.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,5 +40,9 @@ public class UserService {
   public User findByUsername(String username) {
     Optional<User> userOptional = userRepository.findByUsername(username);
     return userOptional.orElse(null);
+  }
+  public User findByEmail (String email) {
+    return userRepository.findByEmail(email).orElseThrow(() ->
+            new UserNotFoundException("User not found with email: " + email));
   }
 }

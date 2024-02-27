@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -66,8 +67,8 @@ public class Client {
   @JoinColumn(name = "company_address_id", referencedColumnName = "id")
   private Address companyAddress;
 
-  @OneToOne(mappedBy = "client")
-  private Invoice invoice;
+  @OneToMany(mappedBy = "client")
+  private List<Invoice> invoices;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
