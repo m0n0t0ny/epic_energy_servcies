@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class provinceService {
+public class ProvinceService {
     @Autowired
     private DAOprovince daOprovince;
 
     public List<Province> getProvince(String name){
         return daOprovince.findByName(name);
+    }
+    public Province save(Province province){
+        return daOprovince.save(province);
     }
 }

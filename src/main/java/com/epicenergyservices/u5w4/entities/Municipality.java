@@ -2,10 +2,7 @@ package com.epicenergyservices.u5w4.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,19 +10,29 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "municipality")
 public class Municipality {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Setter(AccessLevel.NONE)
-  @Column(updatable = false, nullable = false)
-  private UUID id;
+    @Id
+    private long id;
+    private long codiceProvincia;
+    private String progressivoComune;
+    private String name;
+    private String provinceName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "province_id")
+    private Province province;
 
-  @Column(nullable = false)
-  private String name;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "province_id")
-  private Province province;
+    @Override
+    public String toString() {
+        return "Municipality{" +
+                "id=" + id +
+                ", codiceProvincia=" + codiceProvincia +
+                ", progressivoComune='" + progressivoComune + '\'' +
+                ", name='" + name + '\'' +
+                ", provinceName='" + provinceName + '\'' +
+                ", province=" + province +
+                '}';
+    }
 }

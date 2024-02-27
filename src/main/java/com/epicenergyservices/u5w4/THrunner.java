@@ -1,8 +1,7 @@
 package com.epicenergyservices.u5w4;
 
-import com.epicenergyservices.u5w4.dao.DAOprovince;
 import com.epicenergyservices.u5w4.entities.Province;
-import com.epicenergyservices.u5w4.services.provinceService;
+import com.epicenergyservices.u5w4.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +17,7 @@ import java.util.*;
 @Component
 public class THrunner implements CommandLineRunner {
     @Autowired
-    private provinceService provinceService;
+    private ProvinceService provinceService;
     @Value("${PG_URL}")
     private String URL;
     @Value("${PG_USERNAME}")
@@ -98,50 +97,8 @@ public class THrunner implements CommandLineRunner {
                         break;
 
                 }
-                List<String> iglesias = new ArrayList<>();
-                iglesias.addAll(Arrays.asList(
-                        "Buggerru", "Calasetta", "Carbonia", "Carloforte", "Domusnovas", "Fluminimaggiore",
-                        "Giba", "Gonnesa", "Iglesias", "Masainas", "Musei", "Narcao", "Nuxis", "Perdaxius",
-                        "Piscinas", "Portoscuso", "San Giovanni Suergiu", "San Nicolo", "Sant'Anna Arresi",
-                        "Sant'Antioco", "Tratalias", "Villamassargia", "Villaperuccio"
-                ));
 
-                if(iglesias.stream().anyMatch(t->t.equals(name))){
-                    provinceId=23;
-                }
-
-                List<String> medioCampidano = new ArrayList<>();
-                medioCampidano.addAll(Arrays.asList(
-                        "Arbus", "Barumini", "Collinas", "Furtei", "Genoni", "Gesturi", "Gonnosfanadiga",
-                        "Gonnostramatza", "Guspini", "Las Plassas", "Lunamatrona", "Pabillonis", "Samassi",
-                        "San Gavino Monreale", "Sanluri", "Sardara", "Segariu", "Serrenti", "Setzu", "Siddi",
-                        "Tuili", "Turri", "Ussaramanna", "Villacidro", "Villamar", "Villanovaforru",
-                        "Villanovafranca", "Villaperuccio"
-                ));
-                if(medioCampidano.stream().anyMatch(t->t.equals(name))){
-                    provinceId=56;
-                }
-
-                List<String> ogliastra = new ArrayList<>();
-                ogliastra.addAll(Arrays.asList(
-                        "Arzana", "Bari Sardo", "Baunei", "Cardedu", "Elini", "Gairo", "Ierzu", "Ilbono",
-                        "Jerzu", "Lanusei", "Lotzorai", "Osini", "Perdasdefogu", "Seui", "Talana", "Tertenia",
-                        "Tortolì", "Triei", "Ulassai", "Urzulei", "Ussassai", "Villagrande Strisaili"
-                ));
-                if(ogliastra.stream().anyMatch(t->t.equals(name))){
-                    provinceId=64;
-                }
-
-                List<String> olbiaTempio = new ArrayList<>();
-                olbiaTempio.addAll(Arrays.asList(
-                        "Aggius", "Aglientu", "Alà dei Sardi", "Arzachena", "Badesi", "Berchidda", "Bortigiadas",
-                        "Budoni", "Calangianus", "Golfo Aranci", "Loiri Porto San Paolo", "Luogosanto", "Luras",
-                        "Monti", "Olbia", "Oschiri", "Padru", "Palau", "Sant'Antonio di Gallura", "Santa Teresa Gallura",
-                        "Santo Stefano di Sessanio", "Tempio Pausania", "Tergu", "Trinità d'Agultu e Vignola", "Viddalba"
-                ));
-                if(olbiaTempio.stream().anyMatch(t->t.equals(name))){
-                    provinceId=65;
-                }
+//                if (nameProvince3 == "Sud_Sardegna") {
 
                 statement.setLong(1, id);
                 statement.setLong(2, codProvincia);
@@ -158,9 +115,12 @@ public class THrunner implements CommandLineRunner {
 
             connection.commit();
             connection.close();
-        } catch (IOException ex) {
+
+        } catch (
+                IOException ex) {
             System.err.println(ex);
-        } catch (SQLException ex) {
+        } catch (
+                SQLException ex) {
             ex.printStackTrace();
 
             try {

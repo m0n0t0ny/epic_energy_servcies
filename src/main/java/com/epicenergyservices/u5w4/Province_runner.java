@@ -1,5 +1,8 @@
 package com.epicenergyservices.u5w4;
 
+import com.epicenergyservices.u5w4.entities.Province;
+import com.epicenergyservices.u5w4.services.ProvinceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,7 +15,8 @@ import java.sql.SQLException;
 
 @Component
 public class Province_runner implements CommandLineRunner {
-
+    @Autowired
+    private ProvinceService provinceSer;
     @Value("${PG_URL}")
     private String URL;
     @Value("${PG_USERNAME}")
@@ -23,6 +27,9 @@ public class Province_runner implements CommandLineRunner {
 
     private final String csvFilePath2 = "province-italiane.csv";
     Connection connection = null;
+
+    Province province1= new Province("SU","Sud Sardegna");
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -39,7 +46,7 @@ public class Province_runner implements CommandLineRunner {
 
             lineReader.readLine();
 
-
+            provinceSer.save(province1);
             long count = 1;
             String line;
             while ((line = lineReader.readLine()) != null) {

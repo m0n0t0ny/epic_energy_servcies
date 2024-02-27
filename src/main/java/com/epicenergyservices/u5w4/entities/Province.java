@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Province {
     @Id
     private long id;
@@ -20,6 +19,17 @@ public class Province {
     private String name;
     private String region;
 
+    public Province(String initials, String name, String region) {
+        this.initials = initials;
+        this.name = name;
+        this.region = region;
+    }
+
+    public Province(String initials, String name) {
+        this.initials = initials;
+        this.name = name;
+
+    }
 
     @Override
     public String toString() {

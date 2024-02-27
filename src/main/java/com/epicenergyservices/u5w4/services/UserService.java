@@ -13,14 +13,11 @@ import java.util.UUID;
 @Service
 public class UserService {
 
+  @Autowired
   private final UserRepository userRepository;
+  @Autowired
   private final PasswordEncoder passwordEncoder;
 
-  @Autowired
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
 
   public User registerUser(User user) {
     Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());

@@ -12,26 +12,26 @@ import java.util.UUID;
 @Service
 public class ClientService {
 
-  private final ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-  @Autowired
-  public ClientService(ClientRepository clientRepository) {
-    this.clientRepository = clientRepository;
-  }
+    @Autowired
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
-  public Client saveClient(Client client) {
-    return clientRepository.save(client);
-  }
+    public Client saveClient(Client client) {
+        return clientRepository.save(client);
+    }
 
-  public List<Client> getAllClients() {
-    return clientRepository.findAll();
-  }
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
 
-  public Optional<Client> getClientById(UUID id) {
-    return clientRepository.findById(id);
-  }
+    public Optional<Client> getClientById(UUID id) {
+        return clientRepository.findById(id);
+    }
 
-  public void deleteClient(UUID id) {
-    clientRepository.deleteById(id);
-  }
+    public void deleteClient(UUID id) {
+        clientRepository.deleteById(id);
+    }
 }
