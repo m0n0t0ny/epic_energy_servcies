@@ -4,10 +4,10 @@ import java.util.Date;
 import java.util.UUID;
 
 public class InvoicesDTO {
-    private UUID id;
-    private Date date;
-    private double amount;
-    private String status;
+    public UUID id;
+    public Date date;
+    public double amount;
+    public String status;
     public InvoicesDTO(UUID id, Date date, double amount, String status){
         if( id == null || date == null || status == null){
             throw new InvalidPayloadException("Il payload non può avere valori null");

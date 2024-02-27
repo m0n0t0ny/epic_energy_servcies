@@ -3,9 +3,9 @@ package com.epicenergyservices.u5w4.entities;
 import java.util.UUID;
 
 public class provinceDTO {
-    private UUID id;
-    private String name;
-    private String initials;
+    public UUID id;
+    public String name;
+    public String initials;
     provinceDTO(UUID id, String name, String initials){
         if( id == null || name == null || initials == null){
             throw new InvalidPayloadException("Il payload non può avere valori null");

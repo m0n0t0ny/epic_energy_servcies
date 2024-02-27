@@ -5,27 +5,27 @@ import java.util.Date;
 import java.util.UUID;
 
 public class ClientDTO {
-    private UUID id;
-    private String company_name;
-    private String vat_number;
-    private String email;
-    private Date insertion_date;
-    private Date last_contact_date;
-    private Integer annual_revenue;
-    private String certified_email;
-    private String phone_number;
-    private String contact_email;
-    private String contact_first_name;
-    private String contact_last_name;
-    private String contact_phone_number;
-    private String company_logo;
-    private Type type;
-    private UUID legal_address_id;
-    private UUID company_address_id;
-    private UUID invoices_id;
-    private UUID user_id;
+    public UUID id;
+    public String company_name;
+    public String vat_number;
+    public String email;
+    public Date insertion_date;
+    public Date last_contact_date;
+    public Integer annual_revenue;
+    public String certified_email;
+    public String phone_number;
+    public String contact_email;
+    public String contact_first_name;
+    public String contact_last_name;
+    public String contact_phone_number;
+    public String company_logo;
+    public Type type;
+    public UUID legal_address_id;
+    public UUID company_address_id;
+    public UUID invoices_id;
+    public UUID user_id;
 
-    private ClientDTO( UUID id, String company_name, String vat_number, String email, Date insertion_date, Date last_contact_date, Integer annual_revenue,
+    public ClientDTO( UUID id, String company_name, String vat_number, String email, Date insertion_date, Date last_contact_date, Integer annual_revenue,
                       String certified_email, String phone_number, String contact_email, String contact_first_name, String contact_last_name,
                       String contact_phone_number, String company_logo, Type type, UUID legal_address_id, UUID company_address_id, UUID invoices_id,
                       UUID user_id ){
@@ -55,6 +55,10 @@ public class ClientDTO {
     this.invoices_id = invoices_id;
     this.user_id = user_id;
     }
+
+    public ClientDTO(int i, String prova, int i1, String mail, int i2, int i3, int annualRevenue, String mail1, String phoneNumber, String mail2, String firtName, String lastName, String contactPhoneNumber, String logoCompany, String admin, int i4, String number, int i5, int i6) {
+    }
+
     public static class InvalidPayloadException extends RuntimeException {
         public InvalidPayloadException(String message){
             super(message);

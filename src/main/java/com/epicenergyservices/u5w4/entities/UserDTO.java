@@ -7,14 +7,14 @@ import javax.management.relation.Role;
 import java.util.UUID;
 
 public class UserDTO {
-    private UUID id;
-    private String username;
-    private String email;
-    private String password;
-    private String name;
-    private String surname;
-    private String avatar;
-    private Role role;
+    public UUID id;
+    public String username;
+    public String email;
+    public String password;
+    public String name;
+    public String surname;
+    public String avatar;
+    public Role role;
 
     public UserDTO(UUID id, String username, String email, String password, String name, String surname, String avatar, Role role){
         if(id == null || username == null || email == null || password == null || name == null || surname == null || avatar == null || role == null){
