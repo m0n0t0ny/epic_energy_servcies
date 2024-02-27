@@ -12,25 +12,49 @@ import lombok.Setter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired"})
+@Table(name = "users")
 public class User implements UserDetails {
+
   @Id
-  @Setter(AccessLevel.NONE)
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Setter(AccessLevel.NONE)
   private UUID id;
+
+  @Column(nullable = false, unique = true)
   private String username;
+
+  @Column(nullable = false)
   private String email;
+
+  @Column(nullable = false)
   private String password;
+
+  @Column
   private String name;
+
+  @Column
   private String surname;
+
+  @Column
   private String avatar;
+
   @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private Role role;
+
+  @OneToOne
+  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  private Address address;
+
+  @OneToMany(mappedBy = "user")
+  private Set<Client> clients;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,5 +85,4 @@ public class User implements UserDetails {
   public String getUsername() {
     return this.email;
   }
-
 }

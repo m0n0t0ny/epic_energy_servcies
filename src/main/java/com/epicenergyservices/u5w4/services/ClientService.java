@@ -1,5 +1,6 @@
 package com.epicenergyservices.u5w4.services;
 
+
 import com.epicenergyservices.u5w4.entities.ClientDTO;
 import com.epicenergyservices.u5w4.entities.Customer;
 import com.epicenergyservices.u5w4.entities.UserDTO;
@@ -27,4 +28,5 @@ public class ClientService {
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.ASC, "companyName"));
         return clientDAO.findAll(pageable);
     }
+
 }
