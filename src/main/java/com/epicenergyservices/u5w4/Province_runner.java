@@ -36,16 +36,16 @@ public class Province_runner implements CommandLineRunner {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             //crea un nuovo file.csv
-//            BufferedWriter lineWriter = new BufferedWriter(new FileWriter("newFile.csv"));
+            BufferedWriter lineWriter = new BufferedWriter(new FileWriter("newFil2.csv"));
             //leggi il vecchio file
             BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath2));
 
             lineReader.readLine();
             // Leggi i titoli
-//            String header = lineReader.readLine();
+            String header = lineReader.readLine();
             //scrivi l'header sul nuovo file
-//            lineWriter.write(header);
-//            lineWriter.newLine();
+            lineWriter.write(header);
+            lineWriter.newLine();
 
             long count = 1;
             String line;
@@ -55,16 +55,18 @@ public class Province_runner implements CommandLineRunner {
                 //mi prendo le colonne dall'array del vecchio file
                 String initials = data[0];
                 String name = data[1];
+                String[] data2 = name.split(" ");
+                String name2 = String.join("_", data2);
                 String region = data[2];
 
                 //scrivi l'id all'inizio della riga e poi passi alla prossima
-//                lineWriter.write(id + ";" + line);
-//                lineWriter.newLine();
+                lineWriter.write(id + ";" + initials + ";" + name2 + ";" + region);
+                lineWriter.newLine();
 
                 //inserisci i dati
                 statement.setLong(1, id);
                 statement.setString(2, initials);
-                statement.setString(3, name);
+                statement.setString(3, name2);
                 statement.setString(4, region);
 
 
@@ -77,14 +79,13 @@ public class Province_runner implements CommandLineRunner {
             lineReader.close();
 //            statement.executeBatch();
 
-//            lineWriter.close();
+            lineWriter.close();
 
             connection.commit();
             connection.close();
         } catch (IOException ex) {
             System.err.println(ex);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
 
             try {

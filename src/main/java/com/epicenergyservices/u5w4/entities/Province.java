@@ -13,7 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Province {
     @Id
-//    @GeneratedValue
     private long id;
     private String initials;
     private String name;

@@ -13,15 +13,24 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TownHall {
     @Id
-//    @GeneratedValue
     private long id;
     private long codiceProvincia;
     private String progressivoComune;
     private String name;
     private String provinceName;
-//    @ManyToOne
-//    @JoinColumn(name = "province_id")
-//    private Province province;
+    @ManyToOne
+    @JoinColumn(name = "province_id")
+    private Province province;
 
-
+    @Override
+    public String toString() {
+        return "TownHall{" +
+                "id=" + id +
+                ", codiceProvincia=" + codiceProvincia +
+                ", progressivoComune='" + progressivoComune + '\'' +
+                ", name='" + name + '\'' +
+                ", provinceName='" + provinceName + '\'' +
+                ", province=" + province +
+                '}';
+    }
 }
