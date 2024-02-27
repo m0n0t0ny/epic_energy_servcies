@@ -12,7 +12,7 @@ import java.util.Date;
 @Service
 public class JWTTools {
 
-  @Value("${jwt.secret}")
+  @Value("${spring.jwt.secret}")
   private String secret;
 
   public String createToken(User user) {

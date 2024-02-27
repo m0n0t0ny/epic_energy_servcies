@@ -14,12 +14,14 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-    public Page<Client> getAll(@RequestParam(defaultValue = "0") int page,
+    public Page<Client> getAllOrderByName(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size,
                                @RequestParam(defaultValue = "id") String orderBy
     ) {
-        return clientService.orderCompanyByName(page, size, orderBy);
+        return clientService.orderClientsByName(page, size, orderBy);
     }
+
+
 
     @PostMapping
     public Client saveCustomer(@RequestBody ClientDTO payload) {
