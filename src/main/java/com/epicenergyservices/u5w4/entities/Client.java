@@ -1,9 +1,11 @@
 package com.epicenergyservices.u5w4.entities;
 
+import com.epicenergyservices.u5w4.enums.ClientType;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -35,7 +37,7 @@ public class Client {
   private LocalDate lastContactDate;
 
   @Column(nullable = false)
-  private Integer annualRevenue;
+  private double annualRevenue;
 
   @Column(name = "certified_email")
   private String certifiedEmail;
@@ -58,6 +60,9 @@ public class Client {
   @Column(name = "company_logo")
   private String companyLogo;
 
+  @Enumerated(EnumType.STRING)
+  private ClientType clientType;
+
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "legal_address_id", referencedColumnName = "id")
   private Address legalAddress;
@@ -65,9 +70,6 @@ public class Client {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "company_address_id", referencedColumnName = "id")
   private Address companyAddress;
-
-  @OneToOne(mappedBy = "client")
-  private Invoice invoice;
 
   @OneToOne
   @JoinColumn(name = "user_id")

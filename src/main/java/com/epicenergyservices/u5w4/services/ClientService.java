@@ -12,12 +12,10 @@ import java.util.UUID;
 @Service
 public class ClientService {
 
-    private final ClientRepository clientRepository;
-
     @Autowired
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    private  ClientRepository clientRepository;
+
+
 
     public Client saveClient(Client client) {
         return clientRepository.save(client);

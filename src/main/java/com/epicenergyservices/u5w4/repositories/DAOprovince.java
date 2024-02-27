@@ -1,4 +1,4 @@
-package com.epicenergyservices.u5w4.dao;
+package com.epicenergyservices.u5w4.repositories;
 
 import com.epicenergyservices.u5w4.entities.Province;
 import org.springframework.data.jpa.repository.JpaRepository;
