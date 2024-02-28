@@ -6,6 +6,10 @@ import com.epicenergyservices.u5w4.entities.Province;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.ProvinceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,11 @@ public class ProvinceService {
     private ProvinceRepository provinceRepository;
 
 
+    public Page<Province> getAllProvince(int pageNumber, int size, String orderBy) {
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        return provinceRepository.findAll(pageable);
+    }
     public List<Province> getProvince(String name){
         return provinceRepository.findByName(name);
     }
