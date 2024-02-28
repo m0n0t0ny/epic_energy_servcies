@@ -54,7 +54,28 @@ public class ClientService {
         );
     }
 
-//    public Client findAndUpdate()
+    public Client findAndUpdate(UUID clientId, Client updateClient){
+        Client found=this.getClientById(clientId);
+        found.setCompanyName(updateClient.getCompanyName());
+        found.setVatNumber(updateClient.getVatNumber());
+        found.setEmail(updateClient.getEmail());
+        found.setInsertionDate(updateClient.getInsertionDate());
+        found.setLastContactDate(updateClient.getLastContactDate());
+        found.setAnnualRevenue(updateClient.getAnnualRevenue());
+        found.setCertifiedEmail(updateClient.getCertifiedEmail());
+        found.setPhoneNumber(updateClient.getPhoneNumber());
+        found.setContactEmail(updateClient.getContactEmail());
+        found.setContactFirstName(updateClient.getContactFirstName());
+        found.setContactLastName(updateClient.getContactLastName());
+        found.setContactPhoneNumber(updateClient.getContactPhoneNumber());
+        found.setCompanyLogo(updateClient.getCompanyLogo());
+        found.setClientType(updateClient.getClientType());
+        found.setLegalAddress(updateClient.getLegalAddress());
+        found.setCompanyAddress(updateClient.getCompanyAddress());
+        found.setUser(updateClient.getUser());
+        return clientRepository.save(found);
+
+    }
 
 
     public void deleteClient(UUID id) {

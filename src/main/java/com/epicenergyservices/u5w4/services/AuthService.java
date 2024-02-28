@@ -45,15 +45,6 @@ public class AuthService {
         return userRepository.save(newUser);
     }
 
-//    public User saveUser(NewUserDTO payload) {
-//        usersDAO.findByEmail(payload.email()).ifPresent(user -> {
-//            throw new BadRequestException("L'email " + user.getEmail() + " è già in uso!");
-//        });
-//
-//        User newUser = new User(payload.name(), payload.surname(),
-//                payload.email(), bcrypt.encode(payload.password()));
-//        return usersDAO.save(newUser);
-//    }
 
 
 }

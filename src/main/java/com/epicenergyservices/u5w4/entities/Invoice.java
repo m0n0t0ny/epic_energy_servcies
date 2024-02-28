@@ -10,7 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "invoices")
 public class Invoice {
 
@@ -33,4 +32,10 @@ public class Invoice {
   @JoinColumn(name = "client_id", referencedColumnName = "id")
   private Client client;
 
+  public Invoice(LocalDate date, double amount, String status, Client client) {
+    this.date = date;
+    this.amount = amount;
+    this.status = status;
+    this.client = client;
+  }
 }

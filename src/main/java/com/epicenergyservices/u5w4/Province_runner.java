@@ -34,8 +34,12 @@ public class Province_runner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        provinceRepository.save(province1);
-        provinceRepository.save(province2);
+        if (provinceRepository.findByInitials("SU") == null) {
+            provinceRepository.save(province1);
+        }
+        if (provinceRepository.findByInitials("VCO") == null) {
+            provinceRepository.save(province2);
+        }
         try {
             BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath2));
 
