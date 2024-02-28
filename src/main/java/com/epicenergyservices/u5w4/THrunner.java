@@ -1,6 +1,8 @@
 package com.epicenergyservices.u5w4;
 
+import com.epicenergyservices.u5w4.entities.Municipality;
 import com.epicenergyservices.u5w4.entities.Province;
+import com.epicenergyservices.u5w4.repositories.MunicipalityRep;
 import com.epicenergyservices.u5w4.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,8 @@ import java.util.*;
 public class THrunner implements CommandLineRunner {
     @Autowired
     private ProvinceService provinceService;
+    @Autowired
+    private MunicipalityRep municipalityRep;
     @Value("${PG_URL}")
     private String URL;
     @Value("${PG_USERNAME}")
@@ -25,17 +29,11 @@ public class THrunner implements CommandLineRunner {
     @Value("${PG_PASSWORD}")
     String password;
     private final String csvFilePath = "comuni-italiani.csv";
-    Connection connection = null;
+//    Connection connection = null;
 
     @Override
     public void run(String... args) throws Exception {
         try {
-            connection = DriverManager.getConnection(URL, username, password);
-            connection.setAutoCommit(false);
-
-            String sql = "INSERT INTO town_hall (id, codice_provincia, progressivo_comune , name, province_name, province_id) VALUES (?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement statement = connection.prepareStatement(sql);
 
 
             BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
@@ -43,17 +41,16 @@ public class THrunner implements CommandLineRunner {
             lineReader.readLine();
 
 
-            long count = 1;
             long progr = 1;
             String line;
             while ((line = lineReader.readLine()) != null) {
                 String[] data = line.split(";");
+
                 long codProvincia = Long.parseLong(data[0]);
                 String progrComune = data[1];
                 if (Objects.equals(progrComune, "#RIF!")) {
                     progrComune = String.valueOf(progr++);
                 }
-                long id = count++;
                 String name = data[2];
                 String nameProvince = data[3];
                 String[] data2 = nameProvince.split(" ");
@@ -61,73 +58,50 @@ public class THrunner implements CommandLineRunner {
                 String[] data3 = nameProvince2.split("-");
                 String nameProvince3 = String.join("_", data3);
 
-                List<Province> province = this.provinceService.getProvince(nameProvince2);
+                List<Province> provinces = this.provinceService.getProvince(nameProvince2);
 
                 long provinceId = 1;
-                if (!province.isEmpty()) {
-                    provinceId = province.get(0).getId();
+                if (!provinces.isEmpty()) {
+                    provinceId = provinces.get(0).getId();
                 }
                 switch (nameProvince3) {
                     case "Monza_e_della_Brianza":
-                        provinceId = 59;
+                        provinceId = 62;
                         break;
                     case "Bolzano/Bozen":
-                        provinceId = 16;
+                        provinceId = 19;
                         break;
                     case "Reggio_nell'Emilia":
-                        provinceId = 82;
+                        provinceId = 85;
                         break;
                     case "Forlì_Cesena":
-                        provinceId = 37;
+                        provinceId = 40;
                         break;
                     case "Massa_Carrara":
-                        provinceId = 53;
+                        provinceId = 56;
                         break;
                     case "Pesaro_e_Urbino":
-                        provinceId = 71;
+                        provinceId = 74;
                         break;
                     case "Barletta_Andria_Trani":
-                        provinceId = 10;
-                        break;
-                    case "Verbano_Cusio_Ossola":
-                        provinceId = 104;
+                        provinceId = 13;
                         break;
                     case "Valle_d'Aosta/Vallée_d'Aoste":
-                        provinceId = 4;
+                        provinceId = 6;
                         break;
 
                 }
 
-//                if (nameProvince3 == "Sud_Sardegna") {
-
-                statement.setLong(1, id);
-                statement.setLong(2, codProvincia);
-                statement.setString(3, progrComune);
-                statement.setString(4, name);
-                statement.setString(5, nameProvince3);
-                statement.setLong(6, provinceId);
-
-                System.out.println(province);
-                statement.executeUpdate();
+                Province province=provinceService.findById(provinceId);
+                Municipality municipality=new Municipality(codProvincia,progrComune,name,nameProvince3,province);
+                municipalityRep.save(municipality);
 
             }
             lineReader.close();
 
-            connection.commit();
-            connection.close();
-
         } catch (
                 IOException ex) {
             System.err.println(ex);
-        } catch (
-                SQLException ex) {
-            ex.printStackTrace();
-
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

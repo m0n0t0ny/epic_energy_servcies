@@ -10,11 +10,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "municipality")
 public class Municipality {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long codiceProvincia;
     private String progressivoComune;
@@ -23,6 +23,14 @@ public class Municipality {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "province_id")
     private Province province;
+
+    public Municipality(long codiceProvincia, String progressivoComune, String name, String provinceName, Province province) {
+        this.codiceProvincia = codiceProvincia;
+        this.progressivoComune = progressivoComune;
+        this.name = name;
+        this.provinceName = provinceName;
+        this.province = province;
+    }
 
     @Override
     public String toString() {

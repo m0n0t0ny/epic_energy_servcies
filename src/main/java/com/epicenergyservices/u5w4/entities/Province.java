@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Province {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String initials;
     private String name;

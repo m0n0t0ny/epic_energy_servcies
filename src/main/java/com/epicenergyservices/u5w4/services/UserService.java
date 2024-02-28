@@ -14,18 +14,19 @@ import java.util.UUID;
 public class UserService {
 
   @Autowired
-  private final UserRepository userRepository;
-  @Autowired
-  private final PasswordEncoder passwordEncoder;
+  private  UserRepository userRepository;
 
 
-  public User registerUser(User user) {
-    Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());
-    if (existingUserOptional.isPresent()) {
-      throw new RuntimeException("User already exists");
-    }
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    return userRepository.save(user);
+//  public User registerUser(User user) {
+//    Optional<User> existingUserOptional = userRepository.findByUsername(user.getUsername());
+//    if (existingUserOptional.isPresent()) {
+//      throw new RuntimeException("User already exists");
+//    }
+//    user.setPassword(passwordEncoder.encode(user.getPassword()));
+//    return userRepository.save(user);
+//  }
+  public User findByEmail(String email) {
+    return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Email " + email + " non trovata"));
   }
 
   public User findById(UUID userId) {
