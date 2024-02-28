@@ -1,7 +1,7 @@
 package com.epicenergyservices.u5w4.services;
 
 import com.epicenergyservices.u5w4.entities.User;
-import com.epicenergyservices.u5w4.exceptions.UserNotFoundException;
+import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +30,7 @@ public class UserService {
 
   public User findById(UUID userId) {
     return userRepository.findById(userId)
-            .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+            .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
   }
 
   public User findByUsername(String username) {

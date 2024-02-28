@@ -11,7 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "clients")
 public class Client {
@@ -74,4 +73,24 @@ public class Client {
   @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  public Client(String companyName, String vatNumber, String email, LocalDate insertionDate, LocalDate lastContactDate, double annualRevenue, String certifiedEmail, String phoneNumber, String contactEmail, String contactFirstName, String contactLastName, String contactPhoneNumber, String companyLogo, ClientType clientType, Address legalAddress, Address companyAddress, User user) {
+    this.companyName = companyName;
+    this.vatNumber = vatNumber;
+    this.email = email;
+    this.insertionDate = insertionDate;
+    this.lastContactDate = lastContactDate;
+    this.annualRevenue = annualRevenue;
+    this.certifiedEmail = certifiedEmail;
+    this.phoneNumber = phoneNumber;
+    this.contactEmail = contactEmail;
+    this.contactFirstName = contactFirstName;
+    this.contactLastName = contactLastName;
+    this.contactPhoneNumber = contactPhoneNumber;
+    this.companyLogo = companyLogo;
+    this.clientType = clientType;
+    this.legalAddress = legalAddress;
+    this.companyAddress = companyAddress;
+    this.user = user;
+  }
 }

@@ -1,8 +1,19 @@
 package com.epicenergyservices.u5w4.services;
 
+import com.epicenergyservices.u5w4.dto.ClientDTO;
+import com.epicenergyservices.u5w4.entities.Address;
 import com.epicenergyservices.u5w4.entities.Client;
+import com.epicenergyservices.u5w4.entities.User;
+import com.epicenergyservices.u5w4.enums.ClientType;
+import com.epicenergyservices.u5w4.exceptions.NotFoundException;
+import com.epicenergyservices.u5w4.repositories.AddressRepository;
 import com.epicenergyservices.u5w4.repositories.ClientRepository;
+import com.epicenergyservices.u5w4.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,23 +24,41 @@ import java.util.UUID;
 public class ClientService {
 
     @Autowired
-    private  ClientRepository clientRepository;
+    private ClientRepository clientRepository;
+    @Autowired
+    private AddressRepository addressRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
-
-    public Client saveClient(Client client) {
-        return clientRepository.save(client);
+    public Page<Client> getClients(int pageNumber, int size, String orderBy) {
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        return clientRepository.findAll(pageable);
     }
 
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    public Client getClientById(UUID id) {
+        return clientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
-    public Optional<Client> getClientById(UUID id) {
-        return clientRepository.findById(id);
+    public Client saveClient(ClientDTO newClient) {
+        //prima di inserirli, vengono convertiti da UUID al tipo della classe richiesto dalla classe client
+        ClientType clientType = ClientType.valueOf(newClient.clientType());
+        Address legalAddress = addressRepository.findById(newClient.legalAddress()).orElse(null);
+        Address companyAddress = addressRepository.findById(newClient.companyAddress()).orElse(null);
+        User user = userRepository.findById(newClient.user()).orElse(null);
+
+        return clientRepository.save(
+                new Client(newClient.company(), newClient.vatNumber(), newClient.email(), newClient.insertionDate(), newClient.lastContactDate(), newClient.annualRevenue(), newClient.certifiedEmail(), newClient.phoneNumber(), newClient.contactEmail(), newClient.contactFirstName(), newClient.contactLastName(), newClient.contactPhoneNumber(),
+                        newClient.companyLogo(), clientType, legalAddress, companyAddress, user)
+        );
     }
+
+//    public Client findAndUpdate()
+
 
     public void deleteClient(UUID id) {
-        clientRepository.deleteById(id);
+        Client client=this.getClientById(id);
+        clientRepository.delete(client);
     }
 }

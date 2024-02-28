@@ -38,9 +38,9 @@ public class ExceptionsHandler {
 	}
 
 
-	@ExceptionHandler(UserNotFoundException.class)
+	@ExceptionHandler(NotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ErrorsPayload handleNotFound(UserNotFoundException ex) {
+	public ErrorsPayload handleNotFound(NotFoundException ex) {
 		return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
 	}
 

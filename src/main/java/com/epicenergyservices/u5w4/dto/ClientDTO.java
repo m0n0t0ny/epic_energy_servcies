@@ -30,6 +30,8 @@ public record ClientDTO(
         String contactFirstName,
         @NotEmpty(message = "il contactLastName è obbligatorio")
         String contactLastName,
+        @NotEmpty(message = "il contactPhoneNumber è obbligatorio")
+        String contactPhoneNumber,
         @NotEmpty(message = "il logo è obbligatorio")
         String companyLogo,
         @NotEmpty(message = "il clientType è obbligatorio")
