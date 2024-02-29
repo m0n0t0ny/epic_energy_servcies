@@ -61,7 +61,9 @@ public class Province_runner implements CommandLineRunner {
 
                 String region = data[2];
                 Province province = new Province(initials, name3, region);
-                provinceRepository.save(province);
+                if (provinceRepository.findByInitials(initials) == null) {
+                    provinceRepository.save(province);
+                }
 
 
             }

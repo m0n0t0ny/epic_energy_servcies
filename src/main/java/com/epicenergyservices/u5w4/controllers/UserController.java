@@ -1,8 +1,8 @@
 package com.epicenergyservices.u5w4.controllers;
 
 
+
 import com.epicenergyservices.u5w4.entities.User;
-import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
