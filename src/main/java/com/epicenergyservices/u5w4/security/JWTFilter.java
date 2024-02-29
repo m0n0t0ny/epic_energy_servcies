@@ -21,36 +21,36 @@ import java.util.UUID;
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
-	@Autowired
-	private JWTTools jwtTools;
+    @Autowired
+    private JWTTools jwtTools;
 
-	@Autowired
-	private UserService usersService;
+    @Autowired
+    private UserService usersService;
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-		String authHeader = request.getHeader("Authorization");
-		if (authHeader == null || !authHeader.startsWith("Bearer "))
-			throw new UnauthorizedException("Per favore metti il token nell'header");
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+            throw new UnauthorizedException("Per favore metti il token nell'header");
 
-		String accessToken = authHeader.substring(7);
+        String accessToken = authHeader.substring(7);
 
-		System.out.println("ACCESS TOKEN " + accessToken);
+        System.out.println("ACCESS TOKEN " + accessToken);
 
-		jwtTools.verifyToken(accessToken);
+        jwtTools.verifyToken(accessToken);
 
-		String id = jwtTools.extractIdFromToken(accessToken);
-		User user = usersService.findById(UUID.fromString(id));
+        String id = jwtTools.extractIdFromToken(accessToken);
+        User user = usersService.findById(UUID.fromString(id));
 
-		Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		filterChain.doFilter(request, response);
-	}
+        filterChain.doFilter(request, response);
+    }
 
-	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) {
-		return new AntPathMatcher().match("/auth/**", request.getServletPath());
-	}
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+    }
 }

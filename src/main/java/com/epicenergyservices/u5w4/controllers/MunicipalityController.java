@@ -28,6 +28,7 @@ public class MunicipalityController {
     public Municipality findById(@PathVariable long id) {
         return this.municipalityServ.getMunicipalityById(id);
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")

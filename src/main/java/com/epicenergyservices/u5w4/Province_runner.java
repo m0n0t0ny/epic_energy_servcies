@@ -29,16 +29,12 @@ public class Province_runner implements CommandLineRunner {
     private final String csvFilePath2 = "province-italiane.csv";
 
     Province province1 = new Province("SU", "Sud Sardegna", "Sardegna");
-    Province province2 = new Province("VCO", "Verbano_Cusio_Ossola", "Piemonte");
 
 
     @Override
     public void run(String... args) throws Exception {
         if (provinceRepository.findByInitials("SU") == null) {
             provinceRepository.save(province1);
-        }
-        if (provinceRepository.findByInitials("VCO") == null) {
-            provinceRepository.save(province2);
         }
         try {
             BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath2));
@@ -60,9 +56,18 @@ public class Province_runner implements CommandLineRunner {
                 String name3 = String.join("_", data3);
 
                 String region = data[2];
+
                 Province province = new Province(initials, name3, region);
                 if (provinceRepository.findByInitials(initials) == null) {
                     provinceRepository.save(province);
+                }
+                switch (name3) {
+                    case "Carbonia_Iglesias":
+                    case "Medio_Campidano":
+                    case "Ogliastra":
+                    case "Olbia_Tempio":
+                        provinceRepository.delete(provinceRepository.findByName(name3).get(0));
+                        break;
                 }
 
 

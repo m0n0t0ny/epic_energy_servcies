@@ -1,6 +1,7 @@
 package com.epicenergyservices.u5w4.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public record ProvinceDTO(
         @NotEmpty(message = "l'initials è obbligatoria")
