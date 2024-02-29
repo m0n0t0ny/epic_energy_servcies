@@ -75,14 +75,14 @@ public class UserController {
     this.userService.findByIdAndDelete(id);
   }
 
-  @PostMapping("/me/avatar")
-  public String uploadMyCover(@AuthenticationPrincipal User currentAuthenticatedUser, @RequestParam("avatar") MultipartFile image) throws IOException {
-    return this.userService.findAndPostAvatar(currentAuthenticatedUser.getId(),image);
-  }
-  @PostMapping("/{id}/avatar")
-  @PreAuthorize("hasAuthority('ADMIN')")
-  public String uploadCover(@PathVariable UUID id, @RequestParam("avatar") MultipartFile image) throws IOException {
-    return this.userService.findAndPostAvatar(id,image);
-  }
+//  @PostMapping("/me/avatar")
+//  public String uploadMyCover(@AuthenticationPrincipal User currentAuthenticatedUser, @RequestParam("avatar") MultipartFile image) throws IOException {
+//    return this.userService.findAndPostAvatar(currentAuthenticatedUser.getId(),image);
+//  }
+//  @PostMapping("/{id}/avatar")
+//  @PreAuthorize("hasAuthority('ADMIN')")
+//  public String uploadCover(@PathVariable UUID id, @RequestParam("avatar") MultipartFile image) throws IOException {
+//    return this.userService.findAndPostAvatar(id,image);
+//  }
   
 }

@@ -93,4 +93,12 @@ public class ClientService {
         Client client=this.getClientById(id);
         clientRepository.delete(client);
     }
+
+    public List<Client> findByCompanyName(String companyName){
+        List<Client> clients=clientRepository.findByCompanyName(companyName);
+        if (clients.isEmpty()){
+            throw new NotFoundException("nessun client associato a "+companyName);
+        }
+        return clients;
+    }
 }

@@ -32,6 +32,11 @@ public class ClientController {
     ) {
         return this.clientService.getClients(page, size, orderBy);
     }
+    @GetMapping("/company")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Client> findbyCompanyName(@RequestParam("company") String companyName){
+        return clientService.findByCompanyName(companyName);
+    }
 
     @GetMapping("/me")
     public Client getMeClient(@AuthenticationPrincipal User currentAuthenticatedUser){
@@ -59,7 +64,6 @@ public class ClientController {
     public void deleteClient(@PathVariable UUID id) {
         clientService.deleteClient(id);
     }
-
 
 
     @PutMapping("/{id}")
