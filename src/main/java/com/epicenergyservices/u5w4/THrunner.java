@@ -29,7 +29,6 @@ public class THrunner implements CommandLineRunner {
     @Value("${PG_PASSWORD}")
     String password;
     private final String csvFilePath = "comuni-italiani.csv";
-//    Connection connection = null;
 
     @Override
     public void run(String... args) throws Exception {
@@ -92,9 +91,11 @@ public class THrunner implements CommandLineRunner {
 
                 }
 
-                Province province=provinceService.findById(provinceId);
-                Municipality municipality=new Municipality(codProvincia,progrComune,name,nameProvince3,province);
-                municipalityRep.save(municipality);
+                Province province = provinceService.findById(provinceId);
+                Municipality municipality = new Municipality(codProvincia, progrComune, name, nameProvince3, province);
+                if (municipalityRep.findByName(name) == null) {
+                    municipalityRep.save(municipality);
+                }
 
             }
             lineReader.close();
