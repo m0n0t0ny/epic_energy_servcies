@@ -1,5 +1,6 @@
 package com.epicenergyservices.u5w4.services;
 
+
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.epicenergyservices.u5w4.entities.User;
@@ -20,8 +21,7 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-//  @Autowired
-//  private Cloudinary cloudinary;
+
   @Autowired
   private  UserRepository userRepository;
 
@@ -59,12 +59,5 @@ public class UserService {
     userRepository.delete(found);
   }
 
-//  public String findAndPostAvatar(UUID id, MultipartFile image)throws IOException {
-//    User user=this.findById(id);
-//    String url = (String) cloudinary.uploader().upload(image.getBytes(),
-//            ObjectUtils.emptyMap()).get("url");
-//    user.setAvatar(url);
-//    userRepository.save(user);
-//    return url;
-//  }
+
 }

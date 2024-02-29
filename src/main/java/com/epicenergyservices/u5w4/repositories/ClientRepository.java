@@ -26,7 +26,6 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Optional<Client> findByVatNumber(String vatNumber);
     List<Client> findByOrderByAnnualRevenueDesc();
     List<Client> findByInsertionDateBetween(Date startDate, Date endDate);
-//    List<Client> findByCompanyContaining(String partOfName);
     List<Client> findByLastContactDate(LocalDate lastContactDate);
     List<Client> findByInsertionDate(LocalDate insertionDate);
 
