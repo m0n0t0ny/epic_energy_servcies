@@ -1,5 +1,6 @@
 package com.epicenergyservices.u5w4.repositories;
 
+import com.epicenergyservices.u5w4.entities.Address;
 import com.epicenergyservices.u5w4.entities.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,6 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
   List<Client> findByAnnualRevenue(Double annualRevenue);
 
   List<Client> findByCompanyNameContaining(String companyNamePart);
+
+  Client  findClientByUserId(UUID user);
 }

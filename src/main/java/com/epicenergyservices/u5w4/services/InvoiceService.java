@@ -3,6 +3,7 @@ package com.epicenergyservices.u5w4.services;
 import com.epicenergyservices.u5w4.dto.InvoiceDTO;
 import com.epicenergyservices.u5w4.entities.Invoice;
 import com.epicenergyservices.u5w4.entities.Client;
+import com.epicenergyservices.u5w4.entities.User;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.ClientRepository;
 import com.epicenergyservices.u5w4.repositories.InvoiceRepo;
@@ -23,6 +24,13 @@ public class InvoiceService {
     private ClientRepository clientRepository;
 
     public Page<Invoice> getInvoices(int pageNumber, int size, String orderBy) {
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        return invoiceRepo.findAll(pageable);
+    }
+
+    public Page<Invoice> getMyInvoices(User currentUser, int pageNumber, int size, String orderBy) {
+        this.findById(currentUser.getId());
         if (size > 100) size = 100;
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
         return invoiceRepo.findAll(pageable);

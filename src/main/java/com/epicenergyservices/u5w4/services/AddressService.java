@@ -6,6 +6,7 @@ import com.epicenergyservices.u5w4.entities.Address;
 import com.epicenergyservices.u5w4.enums.AddressType;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.AddressRepository;
+import com.epicenergyservices.u5w4.repositories.ClientRepository;
 import com.epicenergyservices.u5w4.repositories.MunicipalityRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,11 +25,23 @@ public class AddressService {
     private AddressRepository addressRepository;
     @Autowired
     private MunicipalityRep municipalityRep;
+    @Autowired
+    private ClientRepository clientRepository;
 
     public Page<Address> getAddress(int pageNumber, int size, String orderBy) {
         if (size > 100) size = 100;
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
         return addressRepository.findAll(pageable);
+    }
+
+    public List<Address> getMyAddress(UUID userId){
+        Client client= clientRepository.findClientByUserId(userId);
+        Address legal=client.getLegalAddress();
+        Address company=client.getCompanyAddress();
+        List<Address> clientAddress=new ArrayList<>();
+        clientAddress.add(legal);
+        clientAddress.add(company);
+        return clientAddress;
     }
 
     public Address getAddressById(UUID id) {

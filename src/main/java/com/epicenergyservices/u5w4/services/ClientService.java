@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,9 +27,9 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
-    private AddressRepository addressRepository;
+    private AddressService addressService;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
 
     public Page<Client> getClients(int pageNumber, int size, String orderBy) {
@@ -44,14 +45,24 @@ public class ClientService {
     public Client saveClient(ClientDTO newClient) {
         //prima di inserirli, vengono convertiti da UUID al tipo della classe richiesto dalla classe client
         ClientType clientType = ClientType.valueOf(newClient.clientType());
-        Address legalAddress = addressRepository.findById(newClient.legalAddress()).orElse(null);
-        Address companyAddress = addressRepository.findById(newClient.companyAddress()).orElse(null);
-        User user = userRepository.findById(newClient.user()).orElse(null);
+        Address legalAddress = addressService.getAddressById(newClient.legalAddress());
+        Address companyAddress = addressService.getAddressById(newClient.companyAddress());
+        User user = userService.findById(newClient.user());
 
         return clientRepository.save(
                 new Client(newClient.company(), newClient.vatNumber(), newClient.email(), newClient.insertionDate(), newClient.lastContactDate(), newClient.annualRevenue(), newClient.certifiedEmail(), newClient.phoneNumber(), newClient.contactEmail(), newClient.contactFirstName(), newClient.contactLastName(), newClient.contactPhoneNumber(),
                         newClient.companyLogo(), clientType, legalAddress, companyAddress, user)
         );
+    }
+
+    public List<Address> getAddressofClientByUserId(UUID userId){
+        Client client= clientRepository.findClientByUserId(userId);
+        Address legal=client.getLegalAddress();
+        Address company=client.getCompanyAddress();
+        List<Address> clientAddress=new ArrayList<>();
+        clientAddress.add(legal);
+        clientAddress.add(company);
+        return clientAddress;
     }
 
     public Client findAndUpdate(UUID clientId, Client updateClient){
