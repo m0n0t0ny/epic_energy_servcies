@@ -1,10 +1,7 @@
 package com.epicenergyservices.u5w4.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -26,7 +23,7 @@ public class Invoice {
   private LocalDate date;
 
   @Column(nullable = false)
-  private Double amount;
+  private double amount;
 
   @Column(nullable = false)
   private String status;
@@ -34,4 +31,11 @@ public class Invoice {
   @ManyToOne
   @JoinColumn(name = "client_id", referencedColumnName = "id")
   private Client client;
+
+  public Invoice(LocalDate date, double amount, String status, Client client) {
+    this.date = date;
+    this.amount = amount;
+    this.status = status;
+    this.client = client;
+  }
 }
