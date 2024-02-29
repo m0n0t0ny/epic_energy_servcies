@@ -17,7 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +40,7 @@ public class Config {
     httpSecurity.formLogin(AbstractHttpConfigurer::disable);
     httpSecurity.csrf(AbstractHttpConfigurer::disable);
     httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    httpSecurity.cors(Customizer.withDefaults());
 
     httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -49,6 +54,7 @@ public class Config {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder(11);
   }
+
   @Bean
   public Cloudinary cloudinary(@Value("${cloudinary.name}") String name, @Value("${cloudinary.apikey}") String key,
                                @Value("${cloudinary.secret}") String secret) {
@@ -59,5 +65,18 @@ public class Config {
     config.put("api_secret", secret);
 
     return new Cloudinary(config);
+  }
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+
+    config.setAllowedOrigins(Arrays.asList("http://localhost:4002"));
+    config.setAllowedMethods(Arrays.asList("*"));
+    config.setAllowedHeaders(Arrays.asList("*"));
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+
+    return source;
   }
 }
