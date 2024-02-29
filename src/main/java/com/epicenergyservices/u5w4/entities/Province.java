@@ -29,5 +29,5 @@ public class Province {
   private String initials;
 
   @OneToMany(mappedBy = "province")
-  private Set<TownHall> townHalls;
+  private Set<Municipality> municipalities;
 }

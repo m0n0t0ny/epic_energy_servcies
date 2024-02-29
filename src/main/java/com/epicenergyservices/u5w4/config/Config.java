@@ -8,7 +8,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,27 +23,29 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class Config {
+
   @Autowired
   private JWTFilter jwtFilter;
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.formLogin(AbstractHttpConfigurer::disable);
-    httpSecurity.csrf(AbstractHttpConfigurer::disable);
-    httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-    httpSecurity.cors(Customizer.withDefaults());
-
-    httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-    httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
+    httpSecurity
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .cors(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .anyRequest().authenticated())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return httpSecurity.build();
   }
 
   @Bean
-  PasswordEncoder getBCrypt() {
-    return new BCryptPasswordEncoder(12);
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
+
 
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
@@ -59,4 +60,5 @@ public class Config {
 
     return source;
   }
+
 }

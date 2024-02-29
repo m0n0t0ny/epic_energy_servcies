@@ -13,8 +13,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "town_halls")
-public class TownHall {
+@Table(name = "municipality")
+public class Municipality {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

@@ -36,7 +36,7 @@ public class Address {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "town_hall_id")
-  private TownHall townHall;
+  private Municipality municipality;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
