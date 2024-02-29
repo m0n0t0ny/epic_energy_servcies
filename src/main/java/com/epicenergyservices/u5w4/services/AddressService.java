@@ -49,7 +49,7 @@ public class AddressService {
     }
 
     public Address saveAddress(AddressDTO newAddress) {
-        Municipality municipality = municipalityRep.findById(Long.valueOf(newAddress.municipality())).orElse(null);
+        Municipality municipality = municipalityRep.findById(newAddress.municipality()).orElse(null);
         AddressType addressType = AddressType.valueOf(newAddress.type());
         return addressRepository.save(
                 new Address(newAddress.street(), newAddress.civicNumber(), newAddress.location(), newAddress.postalCode(), municipality, addressType)

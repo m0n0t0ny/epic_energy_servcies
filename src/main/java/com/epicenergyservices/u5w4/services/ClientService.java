@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -101,4 +102,34 @@ public class ClientService {
         }
         return clients;
     }
+    public List<Client> findByRevenue(double annualRevenue){
+        List<Client> clients=clientRepository.findByAnnualRevenue(annualRevenue);
+        if (clients.isEmpty()){
+            throw new NotFoundException("nessun client trovato con il revenue specificato");
+        }
+        return clients;
+    }
+    public List<Client> findByLastContact(LocalDate lastaContactDate){
+        List<Client> clients=clientRepository.findByLastContactDate(lastaContactDate);
+        if (clients.isEmpty()){
+            throw new NotFoundException("nessun client trovato con la data specificata");
+        }
+        return clients;
+    }
+    public List<Client> findByInsertionDate(LocalDate insertionDate){
+        List<Client> clients=clientRepository.findByInsertionDate(insertionDate);
+        if (clients.isEmpty()){
+            throw new NotFoundException("nessun client trovato con la data specificata");
+        }
+        return clients;
+    }
+
+    public List<Client> findByPartialname(String contactFirstName) {
+        List<Client> clients = clientRepository.findByPartialName(contactFirstName);
+        if (clients.isEmpty()) {
+            throw new NotFoundException("nessun client trovato");
+        }
+        return clients;
+    }
+
 }

@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,8 +35,32 @@ public class ClientController {
     }
     @GetMapping("/company")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Client> findbyCompanyName(@RequestParam("company") String companyName){
+    public List<Client> findbyCompanyName(@RequestParam String companyName){
         return clientService.findByCompanyName(companyName);
+    }
+
+    @GetMapping("/revenue")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Client> findbyAnnualRevenue(@RequestParam double annualRevenue) {
+        return clientService.findByRevenue(annualRevenue);
+    }
+
+    @GetMapping("/lastContact")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Client> findbyLastContact(@RequestParam LocalDate lastaContactDate ) {
+        return clientService.findByLastContact(lastaContactDate);
+    }
+
+    @GetMapping("/insertion")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Client> findbyInsertion(@RequestParam LocalDate insertionDate) {
+        return clientService.findByInsertionDate(insertionDate);
+    }
+
+    @GetMapping("/name")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Client> findbyPartialName(@RequestParam String contactFirstName) {
+        return clientService.findByPartialname(contactFirstName);
     }
 
     @GetMapping("/me")

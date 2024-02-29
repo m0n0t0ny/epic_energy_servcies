@@ -28,8 +28,7 @@ public class UserController {
   private UserService userService;
   @Autowired
   private CloudinaryService cloudinaryService;
-//  @Autowired
-//  private AuthService authService;
+
   @GetMapping
   @PreAuthorize("hasAuthority('ADMIN')")
   public Page<User> getAllUsers(@RequestParam(defaultValue = "0") int page,
