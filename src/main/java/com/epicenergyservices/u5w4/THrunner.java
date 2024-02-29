@@ -65,28 +65,31 @@ public class THrunner implements CommandLineRunner {
                 }
                 switch (nameProvince3) {
                     case "Monza_e_della_Brianza":
-                        provinceId = 62;
+                        provinceId = 61;
                         break;
                     case "Bolzano/Bozen":
-                        provinceId = 19;
+                        provinceId = 18;
                         break;
                     case "Reggio_nell'Emilia":
-                        provinceId = 85;
+                        provinceId = 84;
                         break;
                     case "Forlì_Cesena":
-                        provinceId = 40;
+                        provinceId = 39;
                         break;
                     case "Massa_Carrara":
-                        provinceId = 56;
+                        provinceId = 55;
                         break;
                     case "Pesaro_e_Urbino":
-                        provinceId = 74;
+                        provinceId = 73;
                         break;
                     case "Barletta_Andria_Trani":
-                        provinceId = 13;
+                        provinceId = 12;
                         break;
                     case "Valle_d'Aosta/Vallée_d'Aoste":
-                        provinceId = 6;
+                        provinceId = 5;
+                        break;
+                    case "Verbano_Cusio_Ossola":
+                        provinceId=106;
                         break;
 
                 }
