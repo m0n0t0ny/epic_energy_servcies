@@ -29,6 +29,7 @@ public class InvoiceController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Invoice findById(@PathVariable UUID id) {
         return this.invoiceService.findById(id);
     }
