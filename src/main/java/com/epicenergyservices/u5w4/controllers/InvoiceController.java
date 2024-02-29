@@ -29,13 +29,13 @@ public class InvoiceController {
     ) {
         return this.invoiceService.getInvoices(page, size, orderBy);
     }
-    @GetMapping("/mine")
+    @GetMapping("/me")
     public Page<Invoice> getMyInvoices(@AuthenticationPrincipal User currentAuthenticatedUser,
                                        @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "10") int size,
                                              @RequestParam(defaultValue = "id") String orderBy
     ) {
-        return this.invoiceService.getInvoices(page, size, orderBy);
+        return this.invoiceService.getMyInvoices(currentAuthenticatedUser.getId(),page, size, orderBy);
     }
 
 
@@ -47,7 +47,6 @@ public class InvoiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ADMIN')")
     public Invoice saveNewInvoice(@RequestBody InvoiceDTO invoiceDTO){
         return this.invoiceService.saveInvoice(invoiceDTO);
     }

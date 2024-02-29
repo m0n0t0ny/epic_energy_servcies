@@ -1,5 +1,7 @@
 package com.epicenergyservices.u5w4.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.epicenergyservices.u5w4.entities.User;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.UserRepository;
@@ -10,13 +12,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UserService {
-
+  @Autowired
+  private Cloudinary cloudinary;
   @Autowired
   private  UserRepository userRepository;
 
@@ -52,5 +57,14 @@ public class UserService {
   public void findByIdAndDelete(UUID userId) {
     User found = this.findById(userId);
     userRepository.delete(found);
+  }
+
+  public String findAndPostAvatar(UUID id, MultipartFile image)throws IOException {
+    User user=this.findById(id);
+    String url = (String) cloudinary.uploader().upload(image.getBytes(),
+            ObjectUtils.emptyMap()).get("url");
+    user.setAvatar(url);
+    userRepository.save(user);
+    return url;
   }
 }

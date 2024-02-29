@@ -14,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoiceService {
@@ -29,11 +31,17 @@ public class InvoiceService {
         return invoiceRepo.findAll(pageable);
     }
 
-    public Page<Invoice> getMyInvoices(User currentUser, int pageNumber, int size, String orderBy) {
-        this.findById(currentUser.getId());
-        if (size > 100) size = 100;
+    public Page<Invoice> getMyInvoices(UUID currentUser, int pageNumber, int size, String orderBy) {
+        Client client = clientRepository.findClientByUserId(currentUser);
+        if (client == null) {
+            throw new NotFoundException("Client not found");
+        }
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
-        return invoiceRepo.findAll(pageable);
+        Page<Invoice> clientInvoices = invoiceRepo.findAllByClientId(client.getId(), pageable);
+        if (clientInvoices.isEmpty()) {
+            throw new NotFoundException("Non ci sono fatture registrate con questo id cliente");
+        }
+        return clientInvoices;
     }
 
     public Invoice findById(UUID id) {

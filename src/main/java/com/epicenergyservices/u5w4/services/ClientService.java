@@ -37,6 +37,13 @@ public class ClientService {
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
         return clientRepository.findAll(pageable);
     }
+    public Client getMySelf(UUID userId){
+        Client client=clientRepository.findClientByUserId(userId);
+        if (client==null){
+            throw new NotFoundException("nessun cliente collegato");
+        }
+        return client;
+    }
 
     public Client getClientById(UUID id) {
         return clientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
@@ -55,15 +62,8 @@ public class ClientService {
         );
     }
 
-    public List<Address> getAddressofClientByUserId(UUID userId){
-        Client client= clientRepository.findClientByUserId(userId);
-        Address legal=client.getLegalAddress();
-        Address company=client.getCompanyAddress();
-        List<Address> clientAddress=new ArrayList<>();
-        clientAddress.add(legal);
-        clientAddress.add(company);
-        return clientAddress;
-    }
+
+
 
     public Client findAndUpdate(UUID clientId, Client updateClient){
         Client found=this.getClientById(clientId);
