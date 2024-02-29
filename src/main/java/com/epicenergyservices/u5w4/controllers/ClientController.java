@@ -2,7 +2,6 @@ package com.epicenergyservices.u5w4.controllers;
 
 import com.epicenergyservices.u5w4.dto.ClientDTO;
 import com.epicenergyservices.u5w4.entities.Client;
-//import com.epicenergyservices.u5w4.payloads.ClientDTO;
 import com.epicenergyservices.u5w4.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

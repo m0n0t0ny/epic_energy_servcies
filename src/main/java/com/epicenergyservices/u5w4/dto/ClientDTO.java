@@ -1,5 +1,6 @@
 package com.epicenergyservices.u5w4.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -14,8 +15,10 @@ public record ClientDTO(
         @NotEmpty(message = "l'email è obbligatorio")
         @Email(message = "l'email inserita non è un indirizzo valido")
         String email,
+        @JsonFormat(pattern = "yyyy/MM/dd", shape = JsonFormat.Shape.STRING)
         @NotEmpty(message = "l'insertionDate è obbligatorio")
         LocalDate insertionDate,
+        @JsonFormat(pattern = "yyyy/MM/dd", shape = JsonFormat.Shape.STRING)
         @NotEmpty(message = "lastContactDate è obbligatorio")
         LocalDate lastContactDate,
         @NotEmpty(message = "l'annualRevenue è obbligatorio")

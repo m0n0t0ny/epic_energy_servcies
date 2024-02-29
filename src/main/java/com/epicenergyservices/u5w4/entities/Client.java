@@ -1,6 +1,7 @@
 package com.epicenergyservices.u5w4.entities;
 
 import com.epicenergyservices.u5w4.enums.ClientType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,9 +30,11 @@ public class Client {
   @Column(nullable = false, unique = true)
   private String email;
 
+  @JsonFormat(pattern = "yyyy/MM/dd", shape = JsonFormat.Shape.STRING)
   @Column(name = "insertion_date", nullable = false)
   private LocalDate insertionDate;
 
+  @JsonFormat(pattern = "yyyy/MM/dd", shape = JsonFormat.Shape.STRING)
   @Column(name = "last_contact_date")
   private LocalDate lastContactDate;
 
