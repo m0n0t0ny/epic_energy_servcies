@@ -20,11 +20,12 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-
     public Page<Client> getAllClients(@RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "10") int size,
-                                      @RequestParam(defaultValue = "id") String orderBy
+                                      @RequestParam(defaultValue = "id") String orderBy,
+                                      @RequestParam(defaultValue = "null") String order
     ) {
+        if(order) {
         return this.clientService.getClients(page, size, orderBy);
     }
 
