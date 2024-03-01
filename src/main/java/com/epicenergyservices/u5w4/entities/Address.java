@@ -34,7 +34,7 @@ public class Address {
     @Column(name = "postal_code", nullable = false)
     private String postalCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "town_hall_id")
     private Municipality municipality;
 

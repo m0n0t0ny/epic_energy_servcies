@@ -49,20 +49,36 @@ public class InvoiceController {
 
     @GetMapping("/date")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Invoice> findByDate(@RequestParam LocalDate date) {
-        return invoiceService.findByDate(date);
+    public Page<Invoice> findByDate(@RequestParam("date") LocalDate date,
+                                    @RequestParam(defaultValue = "0")
+                                    int page,
+                                    @RequestParam(defaultValue = "10")
+                                    int size,
+                                    @RequestParam(defaultValue = "id")
+                                    String orderBy) {
+        return invoiceService.findByDate(date, page, size, orderBy);
     }
 
     @GetMapping("/amount")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Invoice> findByAmount(@RequestParam double minAmount, @RequestParam double maxAmount) {
-        return invoiceService.findByAmount(minAmount, maxAmount);
+    public Page<Invoice> findByAmount(@RequestParam double minAmount, @RequestParam double maxAmount, @RequestParam(defaultValue = "0")
+                                      int page,
+                                      @RequestParam(defaultValue = "10")
+                                      int size,
+                                      @RequestParam(defaultValue = "id")
+                                      String orderBy) {
+        return invoiceService.findByAmount(minAmount, maxAmount, page, size, orderBy);
     }
 
     @GetMapping("/stato")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Invoice> findByStato(@RequestParam String status) {
-        return invoiceService.findByStatus(status);
+    public Page<Invoice> findByStato(@RequestParam String status, @RequestParam(defaultValue = "0")
+                                     int page,
+                                     @RequestParam(defaultValue = "10")
+                                         int size,
+                                     @RequestParam(defaultValue = "id")
+                                         String orderBy) {
+        return invoiceService.findByStatus(status, page, size, orderBy);
     }
 
 

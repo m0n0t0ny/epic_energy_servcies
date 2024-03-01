@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface InvoiceRepo extends JpaRepository<Invoice, UUID> {
     Page<Invoice> findAllByClientId(UUID clientId, Pageable pageable);
     List<Invoice> findByClientId(UUID clientId);
-    List<Invoice> findByDate(LocalDate date);
-    List<Invoice> findByAmountBetween(double minAmount, double maxAmount);
-    List<Invoice> findByStatus(String status);
+    Page<Invoice> findByDate(LocalDate date, Pageable pageable);
+    Page<Invoice> findByAmountBetween(double minAmount, double maxAmount, Pageable pageable);
+    Page<Invoice> findByStatus(String status, Pageable pageable);
 }

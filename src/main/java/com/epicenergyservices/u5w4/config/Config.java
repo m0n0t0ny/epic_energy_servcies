@@ -70,7 +70,7 @@ public class Config {
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
 
-    config.setAllowedOrigins(Arrays.asList("http://localhost:4002"));
+    config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
     config.setAllowedMethods(Arrays.asList("*"));
     config.setAllowedHeaders(Arrays.asList("*"));
 

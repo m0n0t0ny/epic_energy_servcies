@@ -77,23 +77,29 @@ public class InvoiceService {
         }
         return invoices;
     }
-    public List<Invoice> findByDate(LocalDate date){
-        List<Invoice> invoices=invoiceRepo.findByDate(date);
+    public Page<Invoice> findByDate(LocalDate date, int pageNumber, int size, String orderBy){
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Invoice> invoices=invoiceRepo.findByDate(date, pageable);
         if (invoices.isEmpty()){
             throw new NotFoundException("non sono presenti fatture che risalgono a questa data");
         }
         return invoices;
     }
-    public List<Invoice> findByAmount(double minAmount, double maxAmount){
-        List<Invoice> invoices=invoiceRepo.findByAmountBetween(minAmount,maxAmount);
+    public Page<Invoice> findByAmount(double minAmount, double maxAmount, int pageNumber, int size, String orderBy){
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Invoice> invoices=invoiceRepo.findByAmountBetween(minAmount,maxAmount, pageable);
         if (invoices.isEmpty()){
             throw new NotFoundException("non sono presenti fatture all'interno a questo range");
         }
         return invoices;
     }
 
-    public List<Invoice> findByStatus(String status) {
-        List<Invoice> invoices = invoiceRepo.findByStatus(status);
+    public Page<Invoice> findByStatus(String status, int pageNumber, int size, String orderBy) {
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Invoice> invoices = invoiceRepo.findByStatus(status, pageable);
         if (invoices.isEmpty()) {
             throw new NotFoundException("non sono presenti fatture con questo stato");
         }

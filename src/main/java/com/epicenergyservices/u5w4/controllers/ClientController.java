@@ -35,32 +35,42 @@ public class ClientController {
     }
     @GetMapping("/company")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Client> findbyCompanyName(@RequestParam String companyName){
-        return clientService.findByCompanyName(companyName);
+    public Page<Client> findbyCompanyName(@RequestParam String companyName,@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size,
+                                          @RequestParam(defaultValue = "id") String orderBy){
+        return clientService.findByCompanyName(companyName,page, size, orderBy);
     }
 
     @GetMapping("/revenue")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Client> findbyAnnualRevenue(@RequestParam double annualRevenue) {
-        return clientService.findByRevenue(annualRevenue);
+    public Page<Client> findbyAnnualRevenue(@RequestParam double annualRevenue,@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size,
+                                            @RequestParam(defaultValue = "id") String orderBy) {
+        return clientService.findByRevenue(annualRevenue,page, size, orderBy);
     }
 
     @GetMapping("/lastContact")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Client> findbyLastContact(@RequestParam LocalDate lastaContactDate ) {
-        return clientService.findByLastContact(lastaContactDate);
+    public Page<Client> findbyLastContact(@RequestParam LocalDate lastaContactDate,@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size,
+                                          @RequestParam(defaultValue = "id") String orderBy ) {
+        return clientService.findByLastContact(lastaContactDate,page, size, orderBy);
     }
 
     @GetMapping("/insertion")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Client> findbyInsertion(@RequestParam LocalDate insertionDate) {
-        return clientService.findByInsertionDate(insertionDate);
+    public Page<Client> findbyInsertion(@RequestParam LocalDate insertionDate,@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "id") String orderBy) {
+        return clientService.findByInsertionDate(insertionDate,page, size, orderBy);
     }
 
     @GetMapping("/name")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Client> findbyPartialName(@RequestParam String contactFirstName) {
-        return clientService.findByPartialname(contactFirstName);
+    public Page<Client> findbyPartialName(@RequestParam String contactFirstName,@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size,
+                                          @RequestParam(defaultValue = "id") String orderBy) {
+        return clientService.findByPartialname(contactFirstName,page, size, orderBy);
     }
 
     @GetMapping("/me")
@@ -72,6 +82,13 @@ public class ClientController {
     @PostMapping("/me")
     @ResponseStatus(HttpStatus.CREATED)
     public Client createClient(@RequestBody ClientDTO client) {
+        Client savedClient = clientService.saveClient(client);
+        return savedClient;
+    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Client saveClient(@RequestBody ClientDTO client) {
         Client savedClient = clientService.saveClient(client);
         return savedClient;
     }

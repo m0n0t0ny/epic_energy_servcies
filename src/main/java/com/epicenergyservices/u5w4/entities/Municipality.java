@@ -20,7 +20,7 @@ public class Municipality {
     private String progressivoComune;
     private String name;
     private String provinceName;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "province_id")
     private Province province;
 

@@ -1,24 +1,28 @@
 package com.epicenergyservices.u5w4.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public record ClientDTO(
         @NotEmpty(message = "company è obbligatorio")
-        String company,
+        String companyName,
         @NotEmpty(message = "il vatNumber è obbligatorio")
         String vatNumber,
         @NotEmpty(message = "l'email è obbligatorio")
         @Email(message = "l'email inserita non è un indirizzo valido")
         String email,
+        @JsonFormat(pattern = "yyyy/M/d", shape = JsonFormat.Shape.STRING)
         @NotEmpty(message = "l'insertionDate è obbligatorio")
         LocalDate insertionDate,
+        @JsonFormat(pattern = "yyyy/M/d", shape = JsonFormat.Shape.STRING)
         @NotEmpty(message = "lastContactDate è obbligatorio")
         LocalDate lastContactDate,
-        @NotEmpty(message = "l'annualRevenue è obbligatorio")
+        @NotNull(message = "l'annualRevenue è obbligatorio")
         double annualRevenue,
         @NotEmpty(message = "la certifiedEmail è obbligatorio")
         String certifiedEmail,
@@ -38,7 +42,7 @@ public record ClientDTO(
         String clientType,
         UUID legalAddress,
         UUID companyAddress,
-        @NotEmpty(message = "lo user è obbligatorio")
+        @NotNull(message = "lo user è obbligatorio")
         UUID user
 
 ) {

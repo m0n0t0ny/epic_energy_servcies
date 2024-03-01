@@ -5,6 +5,7 @@ import com.epicenergyservices.u5w4.entities.Address;
 import com.epicenergyservices.u5w4.entities.Client;
 import com.epicenergyservices.u5w4.entities.User;
 import com.epicenergyservices.u5w4.enums.ClientType;
+import com.epicenergyservices.u5w4.exceptions.BadRequestException;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.AddressRepository;
 import com.epicenergyservices.u5w4.repositories.ClientRepository;
@@ -56,11 +57,14 @@ public class ClientService {
         Address legalAddress = addressService.getAddressById(newClient.legalAddress());
         Address companyAddress = addressService.getAddressById(newClient.companyAddress());
         User user = userService.findById(newClient.user());
-
-        return clientRepository.save(
-                new Client(newClient.company(), newClient.vatNumber(), newClient.email(), newClient.insertionDate(), newClient.lastContactDate(), newClient.annualRevenue(), newClient.certifiedEmail(), newClient.phoneNumber(), newClient.contactEmail(), newClient.contactFirstName(), newClient.contactLastName(), newClient.contactPhoneNumber(),
-                        newClient.companyLogo(), clientType, legalAddress, companyAddress, user)
-        );
+        Client client=new Client(newClient.companyName(), newClient.vatNumber(), newClient.email(), newClient.insertionDate(), newClient.lastContactDate(), newClient.annualRevenue(), newClient.certifiedEmail(), newClient.phoneNumber(), newClient.contactEmail(), newClient.contactFirstName(), newClient.contactLastName(), newClient.contactPhoneNumber(),
+                newClient.companyLogo(), clientType, legalAddress, companyAddress, user);
+        if (clientRepository.findClientByUserId(client.getUser().getId())==null){
+            clientRepository.save(client);
+        }else {
+            throw new BadRequestException("il cliente associato a questo user esite già");
+        }
+        return client;
     }
 
 
@@ -95,37 +99,47 @@ public class ClientService {
         clientRepository.delete(client);
     }
 
-    public List<Client> findByCompanyName(String companyName){
-        List<Client> clients=clientRepository.findByCompanyName(companyName);
+    public Page<Client> findByCompanyName(String companyName,int pageNumber, int size, String orderBy){
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Client> clients=clientRepository.findByCompanyName(companyName,pageable);
         if (clients.isEmpty()){
             throw new NotFoundException("nessun client associato a "+companyName);
         }
         return clients;
     }
-    public List<Client> findByRevenue(double annualRevenue){
-        List<Client> clients=clientRepository.findByAnnualRevenue(annualRevenue);
+    public Page<Client> findByRevenue(double annualRevenue,int pageNumber, int size, String orderBy){
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Client> clients=clientRepository.findByAnnualRevenue(annualRevenue,pageable);
         if (clients.isEmpty()){
             throw new NotFoundException("nessun client trovato con il revenue specificato");
         }
         return clients;
     }
-    public List<Client> findByLastContact(LocalDate lastaContactDate){
-        List<Client> clients=clientRepository.findByLastContactDate(lastaContactDate);
+    public Page<Client> findByLastContact(LocalDate lastaContactDate,int pageNumber, int size, String orderBy){
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Client> clients=clientRepository.findByLastContactDate(lastaContactDate,pageable);
         if (clients.isEmpty()){
             throw new NotFoundException("nessun client trovato con la data specificata");
         }
         return clients;
     }
-    public List<Client> findByInsertionDate(LocalDate insertionDate){
-        List<Client> clients=clientRepository.findByInsertionDate(insertionDate);
+    public Page<Client> findByInsertionDate(LocalDate insertionDate,int pageNumber, int size, String orderBy){
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Client> clients=clientRepository.findByInsertionDate(insertionDate,pageable);
         if (clients.isEmpty()){
             throw new NotFoundException("nessun client trovato con la data specificata");
         }
         return clients;
     }
 
-    public List<Client> findByPartialname(String contactFirstName) {
-        List<Client> clients = clientRepository.findByPartialName(contactFirstName);
+    public Page<Client> findByPartialname(String contactFirstName,int pageNumber, int size, String orderBy) {
+        if (size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Client> clients = clientRepository.findByPartialName(contactFirstName, pageable);
         if (clients.isEmpty()) {
             throw new NotFoundException("nessun client trovato");
         }
