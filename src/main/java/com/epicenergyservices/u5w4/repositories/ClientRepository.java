@@ -26,6 +26,7 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Page<Client> findByInsertionDate(LocalDate insertionDate, Pageable pageable);
     @Query("SELECT c FROM Client c WHERE c.contactFirstName LIKE %:contactFirstName%")
     Page<Client> findByPartialName(String contactFirstName, Pageable pageable);
-
+    @Query(value = "SELECT c FROM Client c ORDER BY annualRevenue DESC")
+    Page<Client> getClientsAndOrderByAnnualRevenue(Pageable pageable);
 
 }

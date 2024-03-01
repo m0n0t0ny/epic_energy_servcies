@@ -33,6 +33,16 @@ public class ClientController {
     ) {
         return this.clientService.getClients(page, size, orderBy);
     }
+
+    @GetMapping("/order/revenue")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Client> getAllrevenue(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size,
+                                      @RequestParam(defaultValue = "id") String orderBy
+    ) {
+        return this.clientService.orderClientsByInvoices(page, size, orderBy);
+    }
     @GetMapping("/company")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Client> findbyCompanyName(@RequestParam String companyName,@RequestParam(defaultValue = "0") int page,
