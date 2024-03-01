@@ -145,5 +145,10 @@ public class ClientService {
         }
         return clients;
     }
+    public Page<Client> orderClientsByInvoices(int pageNumber, int size, String orderBy) {
+        if(size > 100) size = 100;
+        Pageable pageable = PageRequest.of(pageNumber, size);
+        return clientRepository.getClientsAndOrderByAnnualRevenue(pageable);
+    }
 
 }
