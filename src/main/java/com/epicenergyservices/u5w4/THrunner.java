@@ -32,80 +32,80 @@ public class THrunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        try {
-//
-//
-//            BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
-//
-//            lineReader.readLine();
-//
-//
-//            long progr = 1;
-//            String line;
-//            while ((line = lineReader.readLine()) != null) {
-//                String[] data = line.split(";");
-//
-//                long codProvincia = Long.parseLong(data[0]);
-//                String progrComune = data[1];
-//                if (Objects.equals(progrComune, "#RIF!")) {
-//                    progrComune = String.valueOf(progr++);
-//                }
-//                String name = data[2];
-//                String nameProvince = data[3];
-//                String[] data2 = nameProvince.split(" ");
-//                String nameProvince2 = String.join("_", data2);
-//                String[] data3 = nameProvince2.split("-");
-//                String nameProvince3 = String.join("_", data3);
-//
-//                List<Province> provinces = this.provinceService.getProvince(nameProvince2);
-//
-//                long provinceId = 1;
-//                if (!provinces.isEmpty()) {
-//                    provinceId = provinces.get(0).getId();
-//                }
-//                switch (nameProvince3) {
-//                    case "Monza_e_della_Brianza":
-//                        provinceId = 61;
-//                        break;
-//                    case "Bolzano/Bozen":
-//                        provinceId = 18;
-//                        break;
-//                    case "Reggio_nell'Emilia":
-//                        provinceId = 84;
-//                        break;
-//                    case "Forlì_Cesena":
-//                        provinceId = 39;
-//                        break;
-//                    case "Massa_Carrara":
-//                        provinceId = 55;
-//                        break;
-//                    case "Pesaro_e_Urbino":
-//                        provinceId = 73;
-//                        break;
-//                    case "Barletta_Andria_Trani":
-//                        provinceId = 12;
-//                        break;
-//                    case "Valle_d'Aosta/Vallée_d'Aoste":
-//                        provinceId = 5;
-//                        break;
-//                    case "Verbano_Cusio_Ossola":
-//                        provinceId=106;
-//                        break;
-//
-//                }
-//
-//                Province province = provinceService.findById(provinceId);
-//                Municipality municipality = new Municipality(codProvincia, progrComune, name, nameProvince3, province);
-//                if (municipalityRep.findByName(name) == null) {
-//                    municipalityRep.save(municipality);
-//                }
-//
-//            }
-//            lineReader.close();
-//
-//        } catch (
-//                IOException ex) {
-//            System.err.println(ex);
-//        }
+        try {
+
+
+            BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+
+            lineReader.readLine();
+
+
+            long progr = 1;
+            String line;
+            while ((line = lineReader.readLine()) != null) {
+                String[] data = line.split(";");
+
+                long codProvincia = Long.parseLong(data[0]);
+                String progrComune = data[1];
+                if (Objects.equals(progrComune, "#RIF!")) {
+                    progrComune = String.valueOf(progr++);
+                }
+                String name = data[2];
+                String nameProvince = data[3];
+                String[] data2 = nameProvince.split(" ");
+                String nameProvince2 = String.join("_", data2);
+                String[] data3 = nameProvince2.split("-");
+                String nameProvince3 = String.join("_", data3);
+
+                List<Province> provinces = this.provinceService.getProvince(nameProvince2);
+
+                long provinceId = 1;
+                if (!provinces.isEmpty()) {
+                    provinceId = provinces.get(0).getId();
+                }
+                switch (nameProvince3) {
+                    case "Monza_e_della_Brianza":
+                        provinceId = 61;
+                        break;
+                    case "Bolzano/Bozen":
+                        provinceId = 18;
+                        break;
+                    case "Reggio_nell'Emilia":
+                        provinceId = 84;
+                        break;
+                    case "Forlì_Cesena":
+                        provinceId = 39;
+                        break;
+                    case "Massa_Carrara":
+                        provinceId = 55;
+                        break;
+                    case "Pesaro_e_Urbino":
+                        provinceId = 73;
+                        break;
+                    case "Barletta_Andria_Trani":
+                        provinceId = 12;
+                        break;
+                    case "Valle_d'Aosta/Vallée_d'Aoste":
+                        provinceId = 5;
+                        break;
+                    case "Verbano_Cusio_Ossola":
+                        provinceId=106;
+                        break;
+
+                }
+
+                Province province = provinceService.findById(provinceId);
+                Municipality municipality = new Municipality(codProvincia, progrComune, name, nameProvince3, province);
+                if (municipalityRep.findByName(name) == null) {
+                    municipalityRep.save(municipality);
+                }
+
+            }
+            lineReader.close();
+
+        } catch (
+                IOException ex) {
+            System.err.println(ex);
+        }
     }
 }

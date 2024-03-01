@@ -65,29 +65,13 @@ public class ClientService {
         );
     }
 
-    public Page<Client> orderClientsByName(int pageNumber, int size, String orderBy) {
-        if (size > 100) size = 100;
-        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.ASC, "companyName"));
-        return clientDAO.findAll(pageable);
-    }
 
     public Page<Client> orderClientsByInvoices(int pageNumber, int size, String orderBy) {
         if(size > 100) size = 100;
-        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.ASC, "invoice"));
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.ASC, "annualRevenue"));
         return clientDAO.findAll(pageable);
     }
 
-    public Page<Client> orderClientsByEntry(int pageNumber, int size, String orderBy) {
-        if(size > 100) size = 100;
-        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.ASC, "insertion_date"));
-        return clientDAO.findAll(pageable);
-    }
-
-    public Page<Client> orderClientsByLastContact(int pageNumber, int size, String orderBy) {
-        if (size > 100) size = 100;
-        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(Sort.Direction.ASC, "last_contact_date"));
-        return clientDAO.findAll(pageable);
-    }
 
     public Client findAndUpdate(UUID clientId, Client updateClient){
         Client found=this.getClientById(clientId);

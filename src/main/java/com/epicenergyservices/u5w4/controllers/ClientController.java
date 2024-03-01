@@ -22,11 +22,11 @@ public class ClientController {
     @GetMapping
     public Page<Client> getAllClients(@RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "10") int size,
-                                      @RequestParam(defaultValue = "id") String orderBy,
-                                      @RequestParam(defaultValue = "null") String order
+                                      @RequestParam(defaultValue = "id") String orderBy
+
     ) {
-        if(order) {
-        return this.clientService.getClients(page, size, orderBy);
+
+        return this.clientService.orderClientsByInvoices(page, size, orderBy);
     }
 
 
