@@ -12,7 +12,7 @@ public record AddressDTO(
         @NotEmpty(message = "il cpostalCode è obbligatorio")
         String postalCode,
         @NotEmpty(message = "il municipality è obbligatorio")
-        String municipality,
+        long municipality,
         @NotEmpty(message = "il type è obbligatorio")
         String type
 ) {

@@ -1,5 +1,8 @@
 package com.epicenergyservices.u5w4.services;
 
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.epicenergyservices.u5w4.entities.User;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.UserRepository;
@@ -10,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,4 +58,6 @@ public class UserService {
     User found = this.findById(userId);
     userRepository.delete(found);
   }
+
+
 }

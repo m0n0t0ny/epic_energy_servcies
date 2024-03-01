@@ -3,6 +3,7 @@ package com.epicenergyservices.u5w4.services;
 import com.epicenergyservices.u5w4.dto.InvoiceDTO;
 import com.epicenergyservices.u5w4.entities.Invoice;
 import com.epicenergyservices.u5w4.entities.Client;
+import com.epicenergyservices.u5w4.entities.User;
 import com.epicenergyservices.u5w4.exceptions.NotFoundException;
 import com.epicenergyservices.u5w4.repositories.ClientRepository;
 import com.epicenergyservices.u5w4.repositories.InvoiceRepo;
@@ -13,7 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoiceService {
@@ -26,6 +30,19 @@ public class InvoiceService {
         if (size > 100) size = 100;
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
         return invoiceRepo.findAll(pageable);
+    }
+
+    public Page<Invoice> getMyInvoices(UUID currentUser, int pageNumber, int size, String orderBy) {
+        Client client = clientRepository.findClientByUserId(currentUser);
+        if (client == null) {
+            throw new NotFoundException("Client not found");
+        }
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(orderBy));
+        Page<Invoice> clientInvoices = invoiceRepo.findAllByClientId(client.getId(), pageable);
+        if (clientInvoices.isEmpty()) {
+            throw new NotFoundException("Non ci sono fatture registrate con questo id cliente");
+        }
+        return clientInvoices;
     }
 
     public Invoice findById(UUID id) {
@@ -52,4 +69,36 @@ public class InvoiceService {
         Invoice invoice = this.findById(id);
         invoiceRepo.delete(invoice);
     }
+
+    public List<Invoice> findByClient(UUID clientId) {
+        List<Invoice> invoices =invoiceRepo.findByClientId(clientId);
+        if (invoices.isEmpty()){
+            throw new NotFoundException("non sono presenti fatture collegate a questo cliente");
+        }
+        return invoices;
+    }
+    public List<Invoice> findByDate(LocalDate date){
+        List<Invoice> invoices=invoiceRepo.findByDate(date);
+        if (invoices.isEmpty()){
+            throw new NotFoundException("non sono presenti fatture che risalgono a questa data");
+        }
+        return invoices;
+    }
+    public List<Invoice> findByAmount(double minAmount, double maxAmount){
+        List<Invoice> invoices=invoiceRepo.findByAmountBetween(minAmount,maxAmount);
+        if (invoices.isEmpty()){
+            throw new NotFoundException("non sono presenti fatture all'interno a questo range");
+        }
+        return invoices;
+    }
+
+    public List<Invoice> findByStatus(String status) {
+        List<Invoice> invoices = invoiceRepo.findByStatus(status);
+        if (invoices.isEmpty()) {
+            throw new NotFoundException("non sono presenti fatture con questo stato");
+        }
+        return invoices;
+    }
+
+
 }

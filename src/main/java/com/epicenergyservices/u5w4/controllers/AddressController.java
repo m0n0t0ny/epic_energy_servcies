@@ -4,13 +4,16 @@ import com.epicenergyservices.u5w4.dto.AddressDTO;
 import com.epicenergyservices.u5w4.dto.InvoiceDTO;
 import com.epicenergyservices.u5w4.entities.Address;
 import com.epicenergyservices.u5w4.entities.Invoice;
+import com.epicenergyservices.u5w4.entities.User;
 import com.epicenergyservices.u5w4.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,15 +22,21 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Address> getAllAddresss(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "10") int size,
                                         @RequestParam(defaultValue = "id") String orderBy
     ) {
         return this.addressService.getAddress(page, size, orderBy);
     }
+    @GetMapping("/me")
+    public List<Address> getMyAddress(@AuthenticationPrincipal User currentAuthenticatedUser){
+        return addressService.getMyAddress(currentAuthenticatedUser.getId());
+    }
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Address findById(@PathVariable UUID id) {
         return this.addressService.getAddressById(id);
     }

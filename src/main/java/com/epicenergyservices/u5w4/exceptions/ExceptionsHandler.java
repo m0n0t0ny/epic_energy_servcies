@@ -28,12 +28,15 @@ public class ExceptionsHandler {
 	@ExceptionHandler(UnauthorizedException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public ErrorsPayload handleUnauthorized(UnauthorizedException ex) {
+		ex.printStackTrace();
 		return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
 	}
 
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public ErrorsPayload handleAccessDenied(AccessDeniedException ex) {
+		ex.printStackTrace();
+
 		return new ErrorsPayload("Non hai l'accesso a questo endpoint", LocalDateTime.now());
 	}
 
