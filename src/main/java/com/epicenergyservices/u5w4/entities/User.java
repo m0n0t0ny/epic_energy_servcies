@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired"})
+@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired",  "username"})
 @Table(name = "users")
 public class User implements UserDetails {
 

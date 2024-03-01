@@ -17,19 +17,13 @@ import java.util.UUID;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
-    List<Client> findAllByOrderByCompanyNameAsc();
-
-    List<Client> findByAnnualRevenue(Double annualRevenue);
-
     Client findClientByUserId(UUID user);
+    List<Client> findByAnnualRevenue(Double annualRevenue);
     List<Client> findByCompanyName(String companyName);
-    Optional<Client> findByVatNumber(String vatNumber);
-    List<Client> findByOrderByAnnualRevenueDesc();
-    List<Client> findByInsertionDateBetween(Date startDate, Date endDate);
-//    List<Client> findByCompanyContaining(String partOfName);
     List<Client> findByLastContactDate(LocalDate lastContactDate);
     List<Client> findByInsertionDate(LocalDate insertionDate);
-
+    @Query("SELECT c FROM Client c WHERE c.contactFirstName LIKE %:contactFirstName%")
+    List<Client> findByPartialName(String contactFirstName);
 
 
 }

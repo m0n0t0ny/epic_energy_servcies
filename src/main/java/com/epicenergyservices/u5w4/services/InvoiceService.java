@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -68,4 +69,36 @@ public class InvoiceService {
         Invoice invoice = this.findById(id);
         invoiceRepo.delete(invoice);
     }
+
+    public List<Invoice> findByClient(UUID clientId) {
+        List<Invoice> invoices =invoiceRepo.findByClientId(clientId);
+        if (invoices.isEmpty()){
+            throw new NotFoundException("non sono presenti fatture collegate a questo cliente");
+        }
+        return invoices;
+    }
+    public List<Invoice> findByDate(LocalDate date){
+        List<Invoice> invoices=invoiceRepo.findByDate(date);
+        if (invoices.isEmpty()){
+            throw new NotFoundException("non sono presenti fatture che risalgono a questa data");
+        }
+        return invoices;
+    }
+    public List<Invoice> findByAmount(double minAmount, double maxAmount){
+        List<Invoice> invoices=invoiceRepo.findByAmountBetween(minAmount,maxAmount);
+        if (invoices.isEmpty()){
+            throw new NotFoundException("non sono presenti fatture all'interno a questo range");
+        }
+        return invoices;
+    }
+
+    public List<Invoice> findByStatus(String status) {
+        List<Invoice> invoices = invoiceRepo.findByStatus(status);
+        if (invoices.isEmpty()) {
+            throw new NotFoundException("non sono presenti fatture con questo stato");
+        }
+        return invoices;
+    }
+
+
 }

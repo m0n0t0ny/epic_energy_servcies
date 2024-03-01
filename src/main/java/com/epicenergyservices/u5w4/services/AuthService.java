@@ -1,5 +1,7 @@
 package com.epicenergyservices.u5w4.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.epicenergyservices.u5w4.dto.NewUserDTO;
 import com.epicenergyservices.u5w4.dto.UserLoginDTO;
 import com.epicenergyservices.u5w4.entities.User;
@@ -10,12 +12,17 @@ import com.epicenergyservices.u5w4.security.JWTTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
 public class AuthService {
+    @Autowired
+    private Cloudinary cloudinary;
     @Autowired
     private UserService usersService;
 
@@ -44,6 +51,7 @@ public class AuthService {
 
         return userRepository.save(newUser);
     }
+
 
 
 
