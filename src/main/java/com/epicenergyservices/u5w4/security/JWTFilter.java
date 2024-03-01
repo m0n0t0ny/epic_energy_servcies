@@ -21,32 +21,36 @@ import java.util.UUID;
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
-  @Autowired
-  private JWTTools jwtTools;
+    @Autowired
+    private JWTTools jwtTools;
 
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService usersService;
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-    String authHeader = request.getHeader("Authorization");
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      String accessToken = authHeader.substring(7);
-      try {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+            throw new UnauthorizedException("Per favore metti il token nell'header");
+
+        String accessToken = authHeader.substring(7);
+
+        System.out.println("ACCESS TOKEN " + accessToken);
+
         jwtTools.verifyToken(accessToken);
+
         String id = jwtTools.extractIdFromToken(accessToken);
-        User user = userService.findById(UUID.fromString(id));
+        User user = usersService.findById(UUID.fromString(id));
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-      } catch (UnauthorizedException e) {
-        logger.error("Authorization error: {}");
-      }
-    }
-    filterChain.doFilter(request, response);
-  }
 
-  @Override
-  protected boolean shouldNotFilter(HttpServletRequest request) {
-    return new AntPathMatcher().match("/auth/**", request.getServletPath());
-  }
+        filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+    }
 }

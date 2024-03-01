@@ -3,9 +3,7 @@ package com.epicenergyservices.u5w4.entities;
 import com.epicenergyservices.u5w4.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +16,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired"})
+@NoArgsConstructor
+@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired",  "username"})
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -49,12 +48,16 @@ public class User implements UserDetails {
   @Column(name = "role", nullable = false)
   private Role role;
 
-  @OneToOne
-  @JoinColumn(name = "address_id", referencedColumnName = "id")
-  private Address address;
 
-  @OneToMany(mappedBy = "user")
-  private Set<Client> clients;
+  public User(String username, String email, String password, String name, String surname, String avatar) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.surname = surname;
+    this.avatar = avatar;
+    this.role = Role.USER;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

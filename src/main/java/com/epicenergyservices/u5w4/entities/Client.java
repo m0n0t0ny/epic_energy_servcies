@@ -1,7 +1,11 @@
 package com.epicenergyservices.u5w4.entities;
 
+import com.epicenergyservices.u5w4.enums.ClientType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -9,7 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "clients")
 public class Client {
@@ -35,7 +38,7 @@ public class Client {
   private LocalDate lastContactDate;
 
   @Column(nullable = false)
-  private Integer annualRevenue;
+  private double annualRevenue;
 
   @Column(name = "certified_email")
   private String certifiedEmail;
@@ -58,6 +61,9 @@ public class Client {
   @Column(name = "company_logo")
   private String companyLogo;
 
+  @Enumerated(EnumType.STRING)
+  private ClientType clientType;
+
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "legal_address_id", referencedColumnName = "id")
   private Address legalAddress;
@@ -66,10 +72,27 @@ public class Client {
   @JoinColumn(name = "company_address_id", referencedColumnName = "id")
   private Address companyAddress;
 
-  @OneToOne(mappedBy = "client")
-  private Invoice invoice;
-
   @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  public Client(String companyName, String vatNumber, String email, LocalDate insertionDate, LocalDate lastContactDate, double annualRevenue, String certifiedEmail, String phoneNumber, String contactEmail, String contactFirstName, String contactLastName, String contactPhoneNumber, String companyLogo, ClientType clientType, Address legalAddress, Address companyAddress, User user) {
+    this.companyName = companyName;
+    this.vatNumber = vatNumber;
+    this.email = email;
+    this.insertionDate = insertionDate;
+    this.lastContactDate = lastContactDate;
+    this.annualRevenue = annualRevenue;
+    this.certifiedEmail = certifiedEmail;
+    this.phoneNumber = phoneNumber;
+    this.contactEmail = contactEmail;
+    this.contactFirstName = contactFirstName;
+    this.contactLastName = contactLastName;
+    this.contactPhoneNumber = contactPhoneNumber;
+    this.companyLogo = companyLogo;
+    this.clientType = clientType;
+    this.legalAddress = legalAddress;
+    this.companyAddress = companyAddress;
+    this.user = user;
+  }
 }
